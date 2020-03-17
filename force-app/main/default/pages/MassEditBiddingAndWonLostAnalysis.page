@@ -1,0 +1,31 @@
+<apex:page standardController="biddingAndWonLostAnalysis__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="v" id="table">
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.Name.label}">
+          <apex:outputField value="{!v.Name}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.competitor__c.label}">
+          <apex:inputField required="false" value="{!v.competitor__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.quotePrice__c.label}">
+          <apex:inputField required="false" value="{!v.quotePrice__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.technicalScoring__c.label}">
+          <apex:inputField required="false" value="{!v.technicalScoring__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.commercialScoring__c.label}">
+          <apex:inputField value="{!v.commercialScoring__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.biddingAndWonLostAnalysis__c.fields.bidQuantity__c.label}">
+          <apex:inputField value="{!v.bidQuantity__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

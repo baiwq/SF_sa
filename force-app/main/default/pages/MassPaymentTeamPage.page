@@ -1,0 +1,60 @@
+<apex:page standardController="paymentTerm__c" recordSetVar="paymentTerms" sidebar="false" extensions="MassPaymentController">
+  <apex:form >
+   <apex:pageMessages ></apex:pageMessages>
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      
+      <h1 style ='font-family:微软雅黑;color: #ff0000;font-size:13px;'>注意：付款所有阶段不能超出 100%</h1><br/>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table" >
+        <!--付款阶段编号 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+        
+        <!--阶段 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}">
+          <apex:outputField value="{!c.stage__c}"/>
+        </apex:column>
+        
+        <!--序号 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.No__c.label}">
+          <apex:outputField value="{!c.No__c}"/>
+        </apex:column>
+        
+        <!--百分比（%） -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}">
+          <apex:inputField required="true" value="{!c.percentage__c}"/>
+        </apex:column>
+        
+        <!--回款阶段 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}">
+          <apex:inputField required="false" value="{!c.returnStage__c}"/>
+        </apex:column>
+        
+        <!--情况描述 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.description__c.label}">
+          <apex:inputField required="false" value="{!c.description__c}"/>
+        </apex:column>
+        
+        <!--回款手续办理日期 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresDate__c.label}">
+          <apex:inputField required="false" value="{!c.paymentProceduresDate__c}"/>
+        </apex:column>
+        
+        <!--回款手续办理金额 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresAmount__c.label}">
+          <apex:inputField required="false" value="{!c.paymentProceduresAmount__c}"/>
+        </apex:column>
+        
+        <!--回款手续办理方式 -->
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresType__c.label}">
+          <apex:inputField required="false" value="{!c.paymentProceduresType__c}"/>
+        </apex:column>
+                
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

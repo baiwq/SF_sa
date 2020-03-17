@@ -1,0 +1,34 @@
+<apex:page standardController="painAndCareful__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table">
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.Name.label}"> 
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.technical__c.label}"> 
+          <apex:inputField required="false" value="{!c.technical__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.fund__c.label}">
+          <apex:inputField required="false" value="{!c.fund__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.delivery__c.label}"> 
+          <apex:inputField required="false" value="{!c.delivery__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.quality__c.label}"> 
+          <apex:inputField value="{!c.quality__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.support__c.label}"> 
+          <apex:inputField value="{!c.support__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.painAndCareful__c.fields.other__c.label}"> 
+          <apex:inputField value="{!c.other__c}"/>
+        </apex:column> 
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

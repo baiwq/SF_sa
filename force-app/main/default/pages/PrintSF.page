@@ -1,0 +1,80 @@
+<apex:page showHeader="false" sidebar="false" title="顺丰套打" controller="PrintSF">
+<head lang="en">
+    <title>打印顺丰快递单</title>
+    <style>
+        body {
+            background-repeat:no-repeat;
+        }
+        input {
+            background:transparent;
+            border: 0;
+        }
+        .Addressee{
+            position: absolute;
+            top: 205px;
+            left: 290px;
+        }
+        .AddresseePhone{
+            position: absolute;
+            top: 280px;
+            left: 90px;
+        }
+        .AccountName{
+            position: absolute;
+            top: 205px;
+            left: 80px;
+        }
+        .address{
+            position: absolute;
+            top: 255px;
+            left: 20px;
+        }
+        .ApplyBy{
+            position: absolute;
+            top: 120px;
+            left: 280px;
+        }
+        .SalesPhone{
+            position: absolute;
+            top: 177px;
+            left: 170px;
+        }
+        .zhang{
+            position: absolute;
+            top: 355px;
+            left: 155px;
+        }
+        .fapiao{
+            position: absolute;
+            top: 330px;
+            left: 80px;
+        }
+        .comments{
+            position: absolute;
+            top: 355px;
+            left: 30px;
+        }
+        .sign{
+            position: absolute;
+            top: 420px;
+            left: 60px;
+        }
+    </style>
+</head>
+<body>
+   <div style="width:874px;height:483px">
+    <div id="ApplyBy" name="ApplyBy" class="ApplyBy" style="font-size:15px">{!$User.LastName}&nbsp;{!ApplyName}</div>
+    <div id="SalesPhone" name="SalesPhone" class="SalesPhone" style="font-size:15px">{!ApplyPhone}</div>
+    <div id="AccountName" name="AccountName" class="AccountName" style="font-size:15px">{!AccountName}</div>
+    <div id="Addressee" name="Addressee" class="Addressee" style="font-size:15px">{!Receiver}</div>
+    <div id="address" name="address" class="address" style="font-size:15px">{!ShippingAddress}</div>
+    <div id="AddresseePhone" name="AddresseePhone" class="AddresseePhone" style="font-size:15px">{!ReceiverPhone}</div>
+    <div id="fapiao" name="fapiao" class="fapiao" style="font-size:15px">发票</div>
+    <div id="zhang" name="zhang" class="zhang" style="font-size:15px">张</div>
+    <div id="comments" name="comments" class="comments" style="font-size:15px">
+       <textarea name="a" style="width:120px;height:25px;border:0px"></textarea>
+    </div>
+    <div id="sign" name="sign" class="sign" style="font-size:15px">{!$User.LastName}</div>
+   </div>
+</body>
+</apex:page>

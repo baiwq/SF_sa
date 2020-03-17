@@ -1,0 +1,433 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" controller="KanbanConsole" title="Personalized Dashboard" docType="HTML-5.0">
+ <apex:includeScript value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/jquery.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/bootstrap.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/echarts.min.js')}"/>
+ 
+ <c:importvisualstrap theme="default" />
+ <html>
+ <head> 
+  <apex:stylesheet value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/toolkit-inverse.css')}"/> 
+ </head> 
+ <body> 
+  <br />
+  <div class="bw"> 
+   <div class="di"> 
+    
+    <div class="es bsk" style="flex: 0 0 100%;max-width: 100%;"> 
+     <div class="brv"> 
+      <div class="brw"> 
+       <h6 class="bry"> 2017 Dashboards</h6> 
+       
+       <apex:pageMessages ></apex:pageMessages>
+       <h2 class="brx">{!U_LastName}{!U_FirstName}<small style="font-size: 20%;">&nbsp;{!U_Department1}</small></h2> 
+      </div> 
+      <div>
+         <img style="height: 61px;float: right; padding-left: 10px;" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/2017.png')}"/>
+      </div>
+      <div class="qb brz">
+        
+        <div class="ayt">
+          <apex:form >
+          <div class="input-group">
+            <apex:input type="text" style="border: 0px;border-bottom-left-radius: 5px;border-top-left-radius: 5px;width: 40%;text-indent: 10px;" value="{!InputStr}"></apex:input>
+            <span class="input-group-addon" id="basic-addon2" style="padding: 0.5rem 4px 0.5rem 4px;">@sf-auto.com</span>
+            <apex:commandButton value="切换" style="font-weight: bold;border: 0;margin-left: 5px;border-radius: 5px;width:40%" action="{!Trans}"/>
+          </div>
+          </apex:form>
+        </div>      
+      </div> 
+     </div> 
+     
+     
+     
+     <hr class="afx" /> 
+     <div class="di awt agl"> 
+     
+      <div class="en agg amz" style="flex: 0 0 50%;max-width: 50%;}">
+         <div id="main1" style="width:600px; height:400px;"></div>
+         <strong class="axn">Traffic</strong> 
+       <h4>New vs Returning</h4> 
+      </div> 
+      
+      
+      <div class="en agg amz" style="flex: 0 0 50%;max-width: 50%;}">
+       <div id="main2" style="width:600px; height:400px;"></div> 
+       <strong class="axn">Traffic</strong> 
+       <h4>Direct vs Referrals</h4> 
+      </div> 
+      
+      
+      
+     </div> 
+     <div class="brc agl afz"> 
+      <h3 class="brd bre">Quick stats</h3> 
+     </div> 
+     <div class="di bsl"> 
+      <div class="ep fm afz ang ate"> 
+       <div class="bsm bqv">
+        <div class="ahm"> 
+         <span class="bqq">合同/回款额(万)/回款占比</span>
+         <h2 class="bqp"> {!C_Amount_All}/{!C_Return_All} <small style="font-size: x-small;"> {!C_ARpercentage}% </small> </h2> 
+         <hr class="bqz afe" /> 
+        </div>  
+       </div> 
+      </div> 
+      <div class="ep fm afz ang ate"> 
+       <div class="bsm bqy">
+        <div class="ahm"> 
+         <span class="bqq">线索/机会(个)/转化率</span>
+         <h2 class="bqp">{!C_Lead_All}/{!C_Opp_All} <small class="bqp" style="font-size: x-small;">  {!C_LOpercentage}% </small> </h2>
+         <hr class="bqz afe" /> 
+        </div> 
+        </div> 
+      </div> 
+      <div class="ep fm afz ang ate"> 
+       <div class="bsm bqw"> 
+        <div class="ahm"> 
+         <span class="bqq">合同(个)/转化率</span>
+         <h2 class="bqp"> {!C_Contract_All}<small class="bqp" style="font-size: x-small;"> {!C_OCpercentage}% </small> </h2> 
+         <hr class="bqz afe" /> 
+        </div>  
+        </div> 
+      </div> 
+      <div class="ep fm afz ang ate"> 
+       <div class="bsm bqx">
+        <div class="ahm"> 
+         <span class="bqq">当前合同额完成率(年度计划)</span>
+         <h2 class="bqp"> {!P_Contract} </h2> 
+         <hr class="bqz afe" /> 
+        </div> 
+        </div> 
+      </div>
+     </div>
+     <p style="font-size: 7px;font-family: Microsoft Yahei;margin-top: 10px;font-style: oblique;">·个人数据直接计算,团队数据按汇报线求和计算</p> 
+     <hr class="agl" /> 
+      
+     <c:visualstrapblock > 
+     
+       <div style="text-align:right;margin-bottom:10px;font-size: x-small;">
+         <img height="16px" width="16px" style="border-radius:50%" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/green.png')}"/>审批通过&nbsp;
+         <img height="16px" width="16px" style="border-radius:50%" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/red.png')}"/>审批拒绝&nbsp;
+         <img height="16px" width="16px" style="border-radius:50%" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/orange.png')}"/>审批中
+         <img height="16px" width="16px" style="border-radius:50%" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/indigo.png')}"/>未回应
+         <img height="16px" width="16px" style="border-radius:50%" src="{!URLFOR($Resource.KanbanCss,'KanbanCss/grey.png')}"/>调回
+       </div>
+     
+       <c:row >
+       <c:column type="col-md-6">
+       <c:panelBlack title="我提交的记录">
+         <apex:dataTable value="{!SPList}" var="s" styleClass="table table-condensed" style="margin-bottom:0px">
+           <apex:column headerValue="序号">
+             {!s.rowId}
+           </apex:column>
+        
+           <apex:column headerValue="提交审批的记录">
+             <a href="/{!s.orginalId}" target= "_blank">{!s.orginalName}</a>
+           </apex:column>
+        
+           <apex:column headerValue="来源模块">
+             {!s.objectName}
+           </apex:column>
+        
+           <apex:column headerValue="提交时间">
+             {!s.startDate}
+           </apex:column>
+      
+           <apex:column headerValue="最终状态">
+             <apex:image height="20px" width="50px" value="{!If(s.approvalStatus == "Approved",URLFOR($Resource.KanbanCss,'KanbanCss/green.png'),
+                 If(s.approvalStatus == "Rejected",URLFOR($Resource.KanbanCss,'KanbanCss/red.png'),
+                 If(s.approvalStatus == "Pending",URLFOR($Resource.KanbanCss,'KanbanCss/orange.png'),
+                 If(s.approvalStatus == "Removed",URLFOR($Resource.KanbanCss,'KanbanCss/grey.png'),
+                 URLFOR($Resource.KanbanCss,'KanbanCss/indigo.png')))))}" />
+           </apex:column>
+         </apex:dataTable>
+         <c:alert rendered="{!SPList.empty}" type="danger" style="text-align:center">
+           <c:glyph icon="exclamation-sign"/> 没有记录
+         </c:alert>
+         <samx style="float: right;font-size: 4px;margin-top: 8px;"><a href="#" class="ce pi ahr" style="text-decoration: none;">查看更多</a> </samx>
+       </c:panelBlack>
+       </c:column>
+       <c:column type="col-md-6">
+            <c:panelBlack title="由我审批的记录">
+               <apex:dataTable value="{!SPListToMe}" var="s" styleClass="table table-condensed" style="margin-bottom:0px">
+                  <apex:column headerValue="序号">
+                     {!s.rowId}
+                  </apex:column>
+        
+                  <apex:column headerValue="我审批的记录">
+                     <a href="/{!s.orginalId}" target= "_blank">{!s.orginalName}</a>
+                  </apex:column>
+        
+                  <apex:column headerValue="来源模块">
+                     {!s.objectName}
+                  </apex:column>
+        
+                  <apex:column headerValue="审批时间">
+                     {!s.startDate}
+                  </apex:column>
+                  
+                  <apex:column headerValue="我的意见">
+                     <apex:image height="20px" width="50px" value="{!If(s.approvalStatus == "Approved",URLFOR($Resource.KanbanCss,'KanbanCss/green.png'),
+                 If(s.approvalStatus == "Rejected",URLFOR($Resource.KanbanCss,'KanbanCss/red.png'),
+                 If(s.approvalStatus == "Pending",URLFOR($Resource.KanbanCss,'KanbanCss/orange.png'),
+                 If(s.approvalStatus == "Removed",URLFOR($Resource.KanbanCss,'KanbanCss/grey.png'),
+                 URLFOR($Resource.KanbanCss,'KanbanCss/indigo.png')))))}" />
+                  </apex:column>
+                  
+                  <apex:column headerValue="最终状态">
+                      <apex:image height="20px" width="50px" value="{!If(s.approvalStatus == "Approved",URLFOR($Resource.KanbanCss,'KanbanCss/green.png'),
+                       If(s.approvalStatus == "Rejected",URLFOR($Resource.KanbanCss,'KanbanCss/red.png'),
+                       If(s.approvalStatus == "Pending",URLFOR($Resource.KanbanCss,'KanbanCss/orange.png'),
+                       If(s.approvalStatus == "Removed",URLFOR($Resource.KanbanCss,'KanbanCss/grey.png'),
+                       URLFOR($Resource.KanbanCss,'KanbanCss/indigo.png')))))}" />
+                  </apex:column>
+               </apex:dataTable>
+               <c:alert rendered="{!SPListToMe.empty}" type="danger" style="text-align:center">
+                  <c:glyph icon="exclamation-sign"/> 没有记录
+               </c:alert>
+               <samx style="float: right;font-size: 4px;margin-top: 8px;"><a href="#" class="ce pi ahr" style="text-decoration: none;">查看更多</a> </samx>
+            </c:panelBlack>
+         </c:column>
+       </c:row></c:visualstrapblock>
+       
+       
+       
+       
+     <div class="by afz"> 
+       <c:visualstrapblock ><c:row ><c:column type="col-md-12">
+            <c:panelBlack title="登录历史">
+               <apex:dataTable value="{!LoginHis}" var="L" styleClass="table table-condensed" style="margin-bottom:0px">
+                  <apex:column headerValue="序号">
+                     {!L.rowId}
+                  </apex:column>
+        
+                  <apex:column headerValue="经度">
+                     {!L.Lat}
+                  </apex:column>
+        
+                  <apex:column headerValue="纬度">
+                     {!L.Lon}
+                  </apex:column>
+                  
+                  <apex:column headerValue="状态">
+                     {!L.Status}
+                  </apex:column>
+                  
+                  <apex:column headerValue="源IP">
+                     {!L.SourceIp}
+                  </apex:column>
+                  
+                  <apex:column headerValue="应用">
+                     {!L.Application}
+                  </apex:column>
+                  
+                  <apex:column headerValue="国家">
+                     {!L.CountryIso}
+                  </apex:column>
+                  
+                  <apex:column headerValue="地址">
+                     {!L.AddressStreet}
+                  </apex:column>
+                  
+                  <apex:column headerValue="访问时间">
+                     {!L.LoginTime}
+                  </apex:column>
+                  
+                  
+                </apex:dataTable>
+               <c:alert rendered="{!SPListToMe.empty}" type="danger" style="text-align:center">
+                  <c:glyph icon="exclamation-sign"/> 没有记录
+               </c:alert>
+               <samx style="float: right;font-size: 4px;margin-top: 8px;"><a href="#" class="ce pi ahr" style="text-decoration: none;">查看更多</a> </samx>
+            
+          </c:panelBlack>
+         </c:column>
+       </c:row></c:visualstrapblock>
+     
+     </div>
+     
+     
+    </div> 
+   </div> 
+  </div> 
+  <div id="docsModal" class="cb fade" tabindex="-1" role="dialog" aria-labelledby="bsq"> 
+   <div class="modal-dialog"> 
+    <div class="modal-content"> 
+     <div class="uf"> 
+      <h4 class="modal-title" id="myModalLabel">Example modal</h4> 
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+     </div> 
+     <div class="modal-body"> 
+      <p>You're looking at an example modal in the dashboard theme.</p> 
+     </div> 
+     <div class="ug"> 
+      <button type="button" class="ce pb" data-dismiss="modal">Cool, got it!</button> 
+     </div> 
+    </div> 
+   </div> 
+  </div>  
+ </body>
+</html>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
+
+        option = {
+    title: {
+        text: '项目阶段',
+        subtext: ''
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c}%"
+    },
+    toolbox: {
+        feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    legend: {
+        data: ['展现','点击','访问','咨询','订单']
+    },
+    calculable: true,
+    series: [
+        {
+            name:'项目阶段',
+            type:'funnel',
+            left: '10%',
+            top: 60,
+            //x2: 80,
+            bottom: 60,
+            width: '80%',
+            // height: {totalHeight} - y - y2,
+            min: 0,
+            max: 100,
+            minSize: '0%',
+            maxSize: '100%',
+            sort: 'descending',
+            gap: 2,
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                },
+                emphasis: {
+                    textStyle: {
+                        fontSize: 20
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    length: 10,
+                    lineStyle: {
+                        width: 1,
+                        type: 'solid'
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }
+            },
+            data: [
+                {value: 60, name: '项目暂停'},
+                {value: 40, name: '谈判与签订合同'},
+                {value: 20, name: '赢单'},
+                {value: 80, name: '制定并提交解决方案'},
+                {value: 100, name: '引导客户'}
+            ]
+        }
+    ]
+};
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main2'));
+
+        var option = {
+    backgroundColor: '#252830',
+
+    title: {
+        text: 'Customized Pie',
+        left: 'center',
+        top: 20,
+        textStyle: {
+            color: '#ccc'
+        }
+    },
+
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+
+    visualMap: {
+        show: false,
+        min: 80,
+        max: 600,
+        inRange: {
+            colorLightness: [0, 1]
+        }
+    },
+    series : [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '50%'],
+            data:[
+                {value:335, name:'引导客户'},
+                {value:310, name:'制定并提交解决方案'},
+                {value:274, name:'谈判与签订合同'},
+                {value:235, name:'赢单'},
+                {value:400, name:'搜索引擎'}
+            ].sort(function (a, b) { return a.value - b.value}),
+            roseType: 'angle',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    smooth: 0.2,
+                    length: 10,
+                    length2: 20
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#c23531',
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function (idx) {
+                return Math.random() * 200;
+            }
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</apex:page>

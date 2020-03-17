@@ -1,0 +1,241 @@
+<apex:page standardController="Opportunity" extensions="TopOpportunityCtrl" showHeader="false" sidebar="false">
+<apex:includescript value="{!URLFOR($Resource.BootJS, 'BootJS/jquery-3.2.1.js')}" />
+<c:importvisualstrap />
+<c:importTopSource />
+<div class="row">
+               <div class="col-md-4">
+                    <div class="widget bg-primary padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-calendar fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!pv.Days}天</h2>
+                                <div class="text-uppercase">距离招标时间</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                <div class="col-md-4">
+                    <div class="widget bg-primary padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-calendar fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!pv.Days2}天</h2>
+                                <div class="text-uppercase">距离签约时间</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                <div class="col-md-4">
+                    <div class="widget bg-indigo padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-line-chart fa fa-line-chart fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0" style="font-size: 15px;line-height:2.3em">{!opportunity.StageName}</h2>
+                                <div class="text-uppercase">项目阶段</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                
+                <div class="col-md-4">
+                    <div class="widget bg-warning padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-money fa fa-money fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!pv.Amount}万</h2>
+                                <div class="text-uppercase">预估中标金额</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                <div class="col-md-4">
+                    <div class="widget bg-teal padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-pie-chart fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0" style="font-size: 13px;line-height:2.3em">{!opportunity.classification__c}</h2>
+                                <div class="text-uppercase">项目分类</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                <div class="col-md-4">
+                    <div class="widget bg-success padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-rocket fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!opportunity.account.category__c}</h2>
+                                <div class="text-uppercase">客户分类</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                <div class="col-md-4">
+                    <div class="widget bg-indigo padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-line-chart fa fa-line-chart fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!opportunity.opportunityScore__c}</h2>
+                                <div class="text-uppercase">业务机会得分</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+               
+                <div class="col-md-4">
+                    <div class="widget bg-success padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-users fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!pv.TeamTotal}人</h2>
+                                <div class="text-uppercase">团队成员</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+                
+                
+                <div class="col-md-4">
+                    <div class="widget bg-info padding-0">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center pv-15 bg-light-dark">
+                                <em class="icon-trophy trophy fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-15 text-center">
+                                <h2 class="mv-0">{!pv.TotalContractAmount}万</h2>
+                                <div class="text-uppercase">客户合同总金额</div>
+                            </div>
+                        </div>
+                    </div><!--end widget-->
+                </div><!--end col-->
+            </div>
+            <c:column type="col-md-12">
+                    <c:panel title="报价信息" type="info" styleclass="addFontsize">
+                               
+                        <apex:datatable value="{!QList}" var="qq" styleclass="table table-condensed" >    
+                            <apex:column headervalue="报价编号" value="{!qq.name}" />                         
+                            <apex:column headervalue="项目毛利率" value="{!qq.bidPriceProjectMarginRate__c}" />
+                            <apex:column headervalue="项目毛利润" value="{!qq.bidPriceProjectMargin__c}" />
+                            <apex:column headervalue="项目报价" value="{!qq.biddingTotalPrice__c}" />
+                            <apex:column headervalue="外购占比" value="{!qq.outsourcingCostPercent__c}" />
+                            <apex:column headervalue="自有装置报价" value="{!qq.commonProjectOwnEquipmentBiddingPrice__c}" />
+                            <apex:column headervalue="特殊产品报价" value="{!qq.specialProductBiddingPrice__c}" />
+                            <apex:column headervalue="自有软件报价" value="{!qq.ownSoftBiddingPrice__c}" />
+                            <apex:column headervalue="外购材料报价" value="{!qq.outsourcingBiddingPrice__c}" />
+                            <apex:column headervalue="外购服务报价" value="{!qq.outsourcingServiceBiddingPrice__c}" />
+                            <apex:column headervalue="外购建筑施工" value="{!qq.outsourcingArchitectureCostBiddingPrice__c}" />
+                            <apex:column headervalue="对外培训服务" value="{!qq.companyTrainServiceBiddingPrice__c}" />
+                        </apex:datatable>  
+                  
+                    </c:panel>  
+                </c:column>      
+
+             <c:column type="col-md-4">
+             <div class="col-md-12" style="background-color:#ffffff;margin:10px 0px 10px 0">                          
+                    <left>
+                        <div style="margin:10px 0 0 0;font-size:20px">项目小组成员 </div>
+                    </left>      
+               <apex:form id="mid">            
+               <table class="table table-hover">
+                    <apex:datatable value="{!OTMList}" var="ot" styleclass="table table-condensed table-hover fontArrow" >                   
+                        <apex:column headervalue="姓名" value="{!ot.UserId}" />
+                        <apex:column headervalue="{!$ObjectType.OpportunityTeamMember.fields.TeamMemberRole.label}" value="{!ot.TeamMemberRole}" />
+                        <apex:column headervalue="{!$ObjectType.User.fields.department__c.label}" value="{!ot.User.department__c}" />
+                    </apex:datatable>  
+                    <ul class="pager"> 
+                        <li class="previous {!OffsetStatusPrevious}">
+                            <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}" >
+                                <span aria-hidden="true">←</span> 
+                                上一页
+                            </apex:commandlink>
+                        </li> 
+                        <li class="next  {!OffsetStatusNext}">
+                            <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                                 下一页 
+                                <span aria-hidden="true">→</span>
+                            </apex:commandlink>
+                        </li> 
+                    </ul>                   
+                </table> 
+                </apex:form>
+            </div>
+            </c:column>
+            <c:column type="col-md-4">
+             <div class="col-md-12" style="background-color:#ffffff;margin:10px 0 10px 0">
+                 
+                    <left>
+                        <div style="margin:10px 0 0 0;font-size:20px">业绩分配比例</div>
+                    </left>    
+                
+                <table class="table table-hover">
+                        <apex:datatable value="{!CUList}" var="cu" styleclass="table table-condensed table-hover fontArrow" >                   
+                            <apex:column headervalue="{!$ObjectType.commisionUser__c.fields.member__c.label}" value="{!cu.member__c}" />
+                            <apex:column headervalue="{!$ObjectType.commisionUser__c.fields.performanceProportion__c .label}" value="{!cu.performanceProportion__c }" />
+                        </apex:datatable>
+              </table>
+             </div>
+             </c:column>
+             <c:column type="col-md-4">
+            <div class="col-md-12" style="background-color:#ffffff;margin:10px 0 10px 0">
+                     <left>
+                        <div style="margin:10px 0 0 0;font-size:20px">机会阶段</div>
+                    </left> 
+            <table class="table table-hover">
+                        <apex:datatable value="{!OSList}" var="os" styleclass="table table-condensed table-hover fontArrow" >                   
+                            <apex:column headervalue="阶段" value="{!os.OStage}" />
+                            <apex:column headervalue="是否完成">
+                              <apex:outputText rendered="{!if(os.OStatus,true,false)}"><i class="fa fa-check" aria-hidden="true" style="color:green"></i></apex:outputText>
+                              <apex:outputText rendered="{!if(os.OStatus,false,true)}"><i class="fa fa-close" aria-hidden="true" style="color:red"></i></apex:outputText>
+                            </apex:column>
+                        </apex:datatable>
+              </table>
+             </div>
+             </c:column> 
+            
+            
+             <c:column type="col-md-12">
+                    <c:panel title="TOP项目基本信息" type="info" styleclass="addFontsize">
+                    <apex:form >           
+                        <apex:pageBlock >
+                        <apex:pageBlockSection columns="2">
+                            <apex:outputField value="{!o.opportunityNumber__c}"/>
+                            <apex:outputField value="{!o.Account.Name}"/>
+                            <apex:outputField value="{!o.projectStage__c}"/>
+                            <apex:outputField value="{!o.accountIndustry__c}"/>
+                            <apex:outputField value="{!o.projectType__c}"/>
+                            <apex:outputField value="{!o.opportunityIndustry__c}"/>
+                            <apex:outputField value="{!o.industrySecondLevel__c}"/>
+                            <apex:outputField value="{!o.country__c}"/>
+                            <apex:outputField value="{!o.province__c}"/>
+                            <apex:outputField value="{!o.implementationStation__c}"/>
+                            <apex:outputField value="{!o.projectOwner__c}"/>
+                            <apex:outputField value="{!o.salesProjectManager__c}"/>
+                            <apex:outputField value="{!o.promoter__c}"/>
+                            <apex:outputField value="{!o.bidCompany__c}"/>
+                            <apex:outputField value="{!o.projectDesigner__c}"/>
+                            <apex:outputField value="{!o.designAccount__c}"/>
+                            <apex:outputField value="{!o.contractorAccount__c}"/>
+                            <apex:outputField value="{!o.operationTime__c}"/>
+                                                
+                        </apex:pageBlockSection>
+                        </apex:pageBlock>
+                    </apex:form>
+                    </c:panel>  
+                </c:column>      
+</apex:page>

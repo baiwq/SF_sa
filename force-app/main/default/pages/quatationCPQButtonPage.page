@@ -1,0 +1,169 @@
+<apex:page showHeader="false" standardController="quatation__c" standardStylesheets="false" sidebar="false"  title="进入CPQ按钮" docType="HTML-5.0">
+ <apex:includeScript value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/jquery.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.KanbanCss, 'KanbanCss/bootstrap.min.js')}"/>
+ <script src="/soap/ajax/37.0/connection.js" type="text/javascript"></script>
+ <script src="/soap/ajax/37.0/apex.js" type="text/javascript"></script>
+ <c:importvisualstrap theme="default" />
+ <html>
+ <head> 
+     <apex:stylesheet value="{!URLFOR($Resource.boot, 'boot/bootstrapButton.css')}"/>
+     <style type="text/css">
+        .class1 {
+            background-color:#3bb3e0;
+            font-family: 'Open Sans', sans-serif;
+            font-size:12px;
+            text-align:center;
+            text-decoration:none;
+            color:#fff;
+            position:relative;
+            padding:10px 20px;
+    
+            border-radius: 5px;
+            box-shadow: inset 0px 1px 0px #9e8d84, 0px 5px 0px 0px #322620, 0px 10px 5px #999;
+        }
+        .class2 {
+            background-color:#4b3f39;
+            font-family: 'Open Sans', sans-serif;
+            font-size:12px;
+            text-align:center;
+            text-decoration:none;
+            color:#fff;
+            position:relative;
+            padding:10px 20px;
+    
+            border-radius: 5px;
+            box-shadow: inset 0px 1px 0px #9e8d84, 0px 5px 0px 0px #322620, 0px 10px 5px #999;
+        }
+
+    </style>
+ </head> 
+ <body> 
+                  
+     <input type="button" class="class1" value="创建供货范围清单" id="a1" />
+     <input type="button" class="class1" value="设置投标价" id="a2" />
+     <input type="button" class="class1" value="撤回并更改供货范围清单" id="a3" />                 
+     <input type="button" class="class1" value="查看解决方案" id="a4" />                
+       <font style='color:red'>&nbsp;&nbsp;注意：非销售配置器试运行人员，请勿点击左边4个按钮中的任何一个</font>        
+ </body>
+<script type="text/javascript">
+    window.onload = function(){
+    var obj1 = document.getElementById("a1");
+    var obj2 = document.getElementById("a2");
+    var obj3 = document.getElementById("a3");
+    var obj4 = document.getElementById("a4");
+    var approvalStatus='{!quatation__c.approvalStatus__c}';
+    var currentProfileName = '{!$Profile.Name}';
+    
+    if(approvalStatus=="审批通过"||approvalStatus=="提交待审批"){
+        obj1.className = "class2";
+        obj1.disabled=true;
+        obj2.className = "class2";
+        obj2.disabled=true;
+        obj3.className = "class2";
+        obj3.disabled=true;
+        
+    }else{
+        if(currentProfileName=='A-营销工程师'){
+            obj2.className = "class2";
+            obj2.disabled=true;
+            obj3.className = "class2";
+            obj3.disabled=true;
+        }else if(currentProfileName!='系统管理员'){
+            obj1.className = "class2";
+            obj1.disabled=true;
+        }
+        if('{!quatation__c.orderIdCPQ__c}'==null||'{!quatation__c.orderIdCPQ__c}'==''){
+            obj2.className = "class2";
+            obj2.disabled=true;
+            obj3.className = "class2";
+            obj3.disabled=true;
+            obj4.className = "class2";
+            obj4.disabled=true;
+        }
+        if('{!quatation__c.solutionURLCPQStandardPrice__c}'==null||'{!quatation__c.solutionURLCPQStandardPrice__c}'==''){
+            obj4.className = "class2";
+            obj4.disabled=true;
+        }
+    }
+    obj1.onclick = function(){
+        var url = window.location.href;
+        
+        var quaId = '{!quatation__c.id}';
+        
+        var message = sforce.apex.execute("SOSPToCPQCreateOrderClass", "setStandardPrice",{quatationId:quaId});
+        //alert(message);
+        //var quatation=sforce.connection.query("select id,Name from quatation__c where id='"+quaId+"'").getArray('records');                     
+        if(message=='S'){
+            if(url.indexOf('ap7') > 0){
+               top.location.href='http://192.198.10.160:8000/SCC/orderNeedSecond.do?formAction=doInit&orderHeaderBO.orderHeaderVO.orderStep=INTENT&registerEnterprise=SF&languageCode=CHINESE&tenderCode='+
+               '{!quatation__c.opportunityNumberCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&businessNodes=01&sospUrl=https://ap7.salesforce.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }else{
+               //window.open("http://www.baidu.com");
+            top.location.href='http://36.110.116.101:8000/SCC/orderNeedSecond.do?formAction=doInit&orderHeaderBO.orderHeaderVO.orderStep=INTENT&registerEnterprise=SF&languageCode=CHINESE&tenderCode='+
+               '{!quatation__c.opportunityNumberCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&businessNodes=01&sospUrl=https://c.cs58.visual.force.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }
+        }else{
+            //window.open("http://www.baidu.com");
+            alert('进入CPQ创建供货范围清单失败,请联系管理员进行处理');
+            top.location.href = "/" + quaId;
+        }   
+    }
+    obj2.onclick = function(){
+        var url = window.location.href;
+        if('{!quatation__c.orderIdCPQ__c}'==null||'{!quatation__c.orderIdCPQ__c}'==''){
+            alert('订单号为空,不能设置投标价');
+            top.location.href = "/" + quaId;
+        }else{
+            if(url.indexOf('ap7') > 0){
+                top.location.href='http://192.198.10.160:8000/SCC/orderHeader.do?formAction=doSaveQuote&registerEnterprise=SF&languageCode=CHINESE&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+
+                '&businessNodes=01&sospUrl=https://ap7.salesforce.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }else{
+                top.location.href='http://36.110.116.101:8000/SCC/orderHeader.do?formAction=doSaveQuote&registerEnterprise=SF&languageCode=CHINESE&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+
+                '&businessNodes=01&sospUrl=https://c.cs58.visual.force.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }
+            
+        }
+    }
+    obj3.onclick = function(){
+        var url = window.location.href;
+        
+        if('{!quatation__c.orderIdCPQ__c}'==null||'{!quatation__c.orderIdCPQ__c}'==''){
+            alert('订单号为空,不能订单撤回');
+            top.location.href = "/" + quaId;
+        }else{
+            if(url.indexOf('ap7') > 0){
+                top.location.href='http://192.198.10.160:8000/SCC/orderReturnAction.do?formAction=doReturnTo&registerEnterprise=SF&languageCode=CHINESE&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+
+             '&businessNodes=01&sospUrl=https://ap7.salesforce.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }else{
+                top.location.href='http://36.110.116.101:8000/SCC/orderReturnAction.do?formAction=doReturnTo&registerEnterprise=SF&languageCode=CHINESE&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&projectCode='+'{!quatation__c.Name}'+'&comeFrom=S&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+
+             '&businessNodes=01&sospUrl=https://c.cs58.visual.force.com/'+'{!quatation__c.id}'+'&employeeNo=DAIKE&password=111111';
+            }
+            
+        }
+    }
+    obj4.onclick = function(){
+        var url = window.location.href;
+        if('{!quatation__c.solutionURLCPQStandardPrice__c}'==null||'{!quatation__c.solutionURLCPQStandardPrice__c}'==''){
+            alert('解决方案为空');
+            top.location.href = "/" + quaId;
+        }else{
+            if(url.indexOf('ap7') > 0){
+                window.open('http://192.198.10.160:8000/SCC/orderHeader.do?formAction=querySolutionHistoryView&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+'&projectCode='+
+            '{!quatation__c.Name}'+'&employeeNo=DAIKE&password=111111&registerEnterprise=SF&languageCode=CHINESE&businessNodes=01&comeFrom=S');
+            }else{
+                window.open('http://36.110.116.101:8000/SCC/orderHeader.do?formAction=querySolutionHistoryView&orderNumber='+
+            '{!quatation__c.orderIdCPQ__c}'+'&tenderCode='+'{!quatation__c.opportunityNumberCPQ__c}'+'&projectCode='+
+            '{!quatation__c.Name}'+'&employeeNo=DAIKE&password=111111&registerEnterprise=SF&languageCode=CHINESE&businessNodes=01&comeFrom=S');
+            }
+            
+        }
+    }
+}
+</script>
+
+</html></apex:page>

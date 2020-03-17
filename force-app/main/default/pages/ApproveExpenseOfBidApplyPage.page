@@ -1,0 +1,42 @@
+<apex:page showheader="true" sidebar="true" doctype="html-5.0" standardstylesheets="true" lightningStylesheets="true" controller="ApproveExpenseOfBidApplyCtrl">
+   <link href="https://v3.bootcss.com/dist/css/bootstrap.min.css" rel="stylesheet"/>
+   <link href="https://v3.bootcss.com/assets/css/docs.min.css" rel="stylesheet" />
+   
+   <style>
+       .conx:after{
+           content:'留言';
+       }
+   </style>
+<body>
+   <div class="col-md-4">  
+      
+       
+       <div class="bs-example conx" data-example-id="textarea-form-control" style="padding-bottom: 50px;">
+          <textarea id ="info" class="form-control" rows="10" placeholder="注意留言不要超过255字符(必填项)" value="{!comts}" ></textarea>
+          <div class="btn-group btn-group-sm" role="group" aria-label="Large button group" style="float:right" >        
+            <button type="button" class="btn" style="background:#337ab7;color:#fff;" onclick='Check()' >提交审批</button> 
+            <button type="button" class="btn" style="background:#d9534f;color:#fff;" onclick="javascript:window.history.back(-1);">返回记录</button>
+          </div>
+       </div>
+   </div>
+</body>
+   
+   <apex:form id="theForm">
+         <apex:pageMessages id="msgId" />
+         <apex:actionfunction name="Sync" action="{!confirm}" rerender="msgId"> 
+         </apex:actionfunction>
+         <apex:inputHidden value="{!comts}" id="hid"/>
+   </apex:form>
+   <script>
+      function Check(){  
+         if(document.getElementById('info').value==''||document.getElementById('info').value==null){
+            alert('请填写留言');
+            return;
+         }else{
+         document.getElementById('{!$Component.theForm.hid}').value = document.getElementById('info').value;
+         Sync();   
+       }
+      }
+      
+   </script>
+</apex:page>

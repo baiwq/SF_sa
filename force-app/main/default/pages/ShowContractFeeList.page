@@ -1,0 +1,28 @@
+<apex:page standardController="contractFee__c" extensions="QueryContractFee" sidebar="false" docType="html-5.0" showHeader="false" standardStylesheets="true">
+  <c:importvisualstrap theme="default" />
+  <c:visualstrapblock id="strap">
+     <style>
+        a{
+            pointer-events: none;  
+         }
+    </style>
+    <c:row >
+       <c:column type="col-md-12">
+              <apex:datatable value="{!AchivementList}" var="al" styleclass="table table-condensed" >    
+                  <apex:column headervalue="业绩编号" value="{!al.Name}"  />  
+                  <apex:column headervalue="合同号" value="{!al.contract__c}" />                         
+                  <apex:column headervalue="合同金额" value="{!al.contractAmount__c}" />  
+                  <apex:column headervalue="业绩比例" value="{!al.performanceProportion__c}" />  
+                  <apex:column headervalue="业绩分配人" value="{!al.achivementOwner__c}" />  
+                  <apex:column headervalue="销售团队中心" value="{!al.centerWriting__c}" />  
+                  <apex:column headervalue="销售团队部门" value="{!al.departmentWriting__c}" />  
+                  <apex:column headervalue="销售团队省区" value="{!al.provinceWriting__c}" />  
+                  <apex:column headervalue="业绩类型" value="{!al.pType__c}" />   
+              </apex:datatable>  
+        </c:column>  
+
+    </c:row>
+    
+  </c:visualstrapblock>
+  
+</apex:page>

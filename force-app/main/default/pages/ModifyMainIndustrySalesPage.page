@@ -1,0 +1,85 @@
+<apex:page controller="ModifyMainIndustrySalesController" id="page1"  docType="html-5.0">
+<!-- Begin Default Content REMOVE THIS -->
+    <script language="javascript">
+        function Goback()
+        {
+            window.history.back(-1); 
+        }
+        function CheckInput()
+        {
+            var fieldValue = document.getElementById("page1:form1:pageBlock:theUserSection:newFieldValue").value;
+            if(fieldValue != null && fieldValue != '')
+            {
+                DoSave();
+            }
+            else
+            {
+                alert("新主责事业部和新产品业务单元负责人不能为空！");
+            }
+        }
+        function Callback()
+        {
+            var fieldValue = document.getElementById("page1:form1:pageBlock:saveResult").value;
+            if(fieldValue == "SUCCESS")
+            {
+                alert("保存成功！");
+            }
+            else
+            {
+                alert("保存失败："+fieldValue);
+            }
+        }
+        function ChangeFieldValue()
+        {
+            DoGetApprover();
+        }
+    </script>
+    <apex:actionstatus id="status">
+        <apex:facet name="start" >
+            <div class="waitingSearchDiv" id="el_loading" style=" background-color: #fbfbfb ;
+                height: 100%;opacity :0.65;width:100%;" >
+                <div class="waitingHolder" style="position: fixed;top : 30%; right:50%;width: 91px;" >
+                    <img class="waitingImage" src="/img/loading32.gif" title="Please Wait..." />
+                </div>
+            </div>
+        </apex:facet>
+    </apex:actionstatus>
+    <apex:form id="form1">
+		<div style="width: 100%;">
+			<apex:outputPanel >
+                    <apex:image value="{!$Resource.ModifyMainIndustry}"/>
+                    <font size="5" face="verdana">{!dataName}</font>
+			</apex:outputPanel>
+			<br/>
+			修改当前记录的主责事业部和产品业务单元负责人信息。
+			<br/><br/>
+		</div>
+		<apex:pageBlock id="pageBlock" title="变更主责事业部">
+            <apex:inputHidden value="{!saveResult}" id="saveResult" />
+			<div id="bigdiv" class="center" >
+				<apex:pageBlockSection columns="1" id="theUserSection">
+					<apex:outputText value="{!dataName}" label="数据名称"/>
+					<apex:outputText value="{!fieldValue}" label="原始主责事业部"/>
+					<apex:outputField value="{!acc1.cpywdyfzr__c}" label="原始产品业务单元负责人"/>
+                    <apex:selectList value="{!newFieldValue}" size="1" style="float:left" id="newFieldValue" 
+                                    label="新主责事业部" onchange="ChangeFieldValue()">
+                        <apex:selectOptions value="{!optionList}" />
+                    </apex:selectList>
+                    <apex:outputField value="{!acc2.cpywdyfzr__c}" id="inputUser" label="新产品业务单元负责人"/>
+				</apex:pageBlockSection>
+				<apex:pageBlockButtons location="bottom">
+                    <apex:commandButton value="确定" onclick="CheckInput();return false;"/>
+                    <apex:commandButton value="取消" onclick="Goback();return false;"/>
+                </apex:pageBlockButtons>
+            </div>
+            <div style="width: 100%;text-align: center;">    
+                <apex:pageBlockButtons >
+                    <apex:actionFunction name="DoSave" action="{!SaveData}" rerender="saveResult" status="status" oncomplete="Callback();return false;">
+                    </apex:actionFunction>
+                    <apex:actionFunction name="DoGetApprover" action="{!GetApprover}" rerender="inputUser" status="status">
+                    </apex:actionFunction>
+                </apex:pageBlockButtons>
+            </div> 
+        </apex:pageBlock>
+	</apex:form>
+</apex:page>

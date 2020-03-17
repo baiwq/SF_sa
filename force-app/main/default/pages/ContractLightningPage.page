@@ -1,0 +1,78 @@
+<apex:page standardController="Contract__c" extensions="ContractLightningBar">   
+  <script>
+    // 页面加载需要初始化数据，用JS 动态加载数据
+     window.onload = setupPage; 
+     function setupPage(){
+        var drwaStr = " ";       //定义 画图的内容
+        var currentNumber = 0;    //定义 当前处于下拉列表里哪个阶段
+        var currentStage = '{!CurrentStage}';  //定义当前阶段值
+        var abc = '{!StageNames}';  //定义 下拉列表所有值
+        
+        abc = abc.substring(1,abc.length-1); //截取 下拉列表前后的括号
+        var arr = new Array();
+        arr = abc.split(",");    // 下拉列表值转数组
+        
+        for(var a=0;a<arr.length;a++){
+          if((arr[a]).substring(1,arr[a].length)== currentStage){  //~遍历时发现每个值前面都有一个空格
+            currentNumber = a;
+          }
+        } 
+                 
+        for(var b=0;b<arr.length;b++){   //画图
+         if(b < currentNumber){
+            drwaStr = drwaStr + "<li class=\"complete tabs__item uiTabItem runtime_sales_pathassistantPathAssistantTab\"><a class=\"tabHeader\" tabindex=\"-1\" href=\"javascript:void(0);\"><span class=\"complete\"><span class=\"icon-fallback-text checkmark forceIcon\" data-icon=\"\" data-key=\"check\"><span class=\"icon icon-key\"></span></span><span class=\"newAssistiveText forceIcon\">stage complete</span></span><span class=\"title\">"+ arr[b] +"</span></a></li>";  
+         }else if(b == currentNumber){
+            drwaStr = drwaStr + "<li class=\"current tabs__item active uiTabItem runtime_sales_pathassistantPathAssistantTab\"><a class=\"tabHeader\" tabindex=\"0\" href=\"javascript:void(0);\"><span class=\"current\"></span><span class=\"title\">" + arr[b] + "</span></a></li>";
+         }else if(b > currentNumber){
+            drwaStr = drwaStr + "<li class=\"ahead tabs__item uiTabItem runtime_sales_pathassistantPathAssistantTab\"><a class=\"tabHeader\" tabindex=\"-1\" href=\"javascript:void(0);\"><span class=\"ahead\"></span><span class=\"title\">"+ arr[b] +"</span></a></li>";
+         }
+        } 
+        
+        document.getElementById("urldraw").innerHTML = drwaStr;
+     }
+  </script>
+   
+   <apex:stylesheet value="{!URLFOR($Resource.lightning2, 'lightning2.css')}"/>
+   <section class="stage panelSlide swiped" data-aura-rendered-by="462:2;a" style="top: 60px; height: calc(100% - 60px);"> 
+    <div class="center oneCenterStage" tabindex="-1" data-aura-rendered-by="479:2;a" data-aura-class="oneCenterStage"> 
+     <div class="row region-subheader" data-aura-rendered-by="43:343;a"> 
+      <div data-aura-rendered-by="50:343;a" class="flexipageComponent" data-aura-class="flexipageComponent"> 
+       <!--render facet: 54:343;a--> 
+       <!--render facet: 58:343;a--> 
+       <div data-aura-rendered-by="60:343;a" class="runtime_sales_pathassistantPathAssistant" data-aura-class="runtime_sales_pathassistantPathAssistant"> 
+        <!--render facet: 210:496;a--> 
+        <!--render facet: 3:496;a--> 
+        <!--render facet: 8:496;a--> 
+        <div class="pa-card runtime_sales_pathassistantPathAssistantCard runtime_sales_pathassistantPathAssistantCardDesktop" data-aura-rendered-by="10:496;a" data-aura-class="runtime_sales_pathassistantPathAssistantCard runtime_sales_pathassistantPathAssistantCardDesktop"> 
+         <div class="pa-drawer pa-border no-data runtime_sales_pathassistantCollapsibleDrawer" data-aura-rendered-by="184:496;a" data-aura-class="runtime_sales_pathassistantCollapsibleDrawer" id="11:496;a"> 
+          <div class="cd-header header" data-aura-rendered-by="185:496;a"> 
+           <!--render facet: 205:496;a--> 
+           <div class="tabset-border desktop runtime_sales_pathassistantPathAssistantTabSet--desktop runtime_sales_pathassistantPathAssistantTabSet" data-aura-class="runtime_sales_pathassistantPathAssistantTabSet--desktop runtime_sales_pathassistantPathAssistantTabSet" data-aura-rendered-by="19:496;a"> 
+            <!--unrender facet: 38:496;a--> 
+            <!--render facet: 48:496;a--> 
+            <div class="pa-scroller uiScroller scroller-wrapper scroll-horizontal" style="" data-aura-rendered-by="50:496;a" data-aura-class="uiScroller"> 
+             <div class="scroller stretch" data-aura-rendered-by="51:496;a"> 
+              <!--render facet: 42:496;a--> 
+              <div class="pa-tabBar uiTabBar" role="application tablist" data-aura-rendered-by="43:496;a" data-aura-class="uiTabBar"> 
+               <ul class="tabs__nav" role="presentation" id="urldraw"> 
+                   <!--需要插入的画图内容在此-->
+               </ul> 
+              </div> 
+             </div> 
+            </div> 
+            <!--unrender facet: 71:496;a--> 
+            <div class="tooltip tooltip-hidden" role="tooltip" id="pa-tooltip" data-aura-rendered-by="72:496;a" style="left: 108px;" aria-hidden="true"> 
+             <div class="wrapper" data-aura-rendered-by="15:496;a" style="left: 0px;"> 
+              <span class="defaultTabHoverString" data-aura-rendered-by="16:496;a">Open - Not Contacted</span> 
+             </div> 
+            </div> 
+           </div> 
+          </div> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+   </section> 
+  </apex:page>

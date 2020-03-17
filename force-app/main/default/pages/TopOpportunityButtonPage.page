@@ -1,0 +1,8 @@
+<apex:page standardController="Opportunity" standardStylesheets="false" >    
+    <c:importvisualstrap theme="default" /> 
+    <c:visualstrapblock id="strap"> 
+    <apex:form rendered="{!Opportunity.valueTopOpportunity__c}"> 
+        <apex:commandLink value="转至TOP项目管理页面" action="/apex/TopIndex?id={!Opportunity.id}" styleClass="btn btn btn-success" immediate="true"  target="_blank" style="text-decoration:none" />
+    </apex:form>
+    </c:visualstrapblock> 
+</apex:page>

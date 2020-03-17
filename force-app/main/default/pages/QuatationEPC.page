@@ -1,0 +1,4 @@
+<apex:page standardController="quatation__c" >
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:12px;margin-bottom:10px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说明:</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:12px;margin-bottom:10px'>EPC业务单元不适用常规产品业务的核算模式，EPC业务单元手动输入合同总价及项目毛利率，并上传详细的成本核算及报价文件</h3><br/>
+</apex:page>

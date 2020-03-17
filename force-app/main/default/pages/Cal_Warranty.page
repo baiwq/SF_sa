@@ -1,0 +1,15 @@
+<apex:page showHeader="true" title="计算合同质保期"  sidebar="false" controller="Cal_Warranty_Controller">
+  <apex:form >
+    <apex:message />
+    <font style='color:red'>{!info}</font>
+    <apex:pageBlock title="请输入合同号"> 
+    提示：1.两个合同号之间用英文“,”分开。
+         2.支持自动换行。
+         3.请不要一次提交过多合同号(进过测试，最好不要大于4000)。
+      <apex:inputTextarea rows="15" cols="180" value="{!conNumValue}"></apex:inputTextarea>
+      <br/>       
+      <apex:commandButton value="提交" action="{!calculateWarrantyDays}"></apex:commandButton>
+    </apex:pageBlock> 
+  </apex:form>
+   
+</apex:page>

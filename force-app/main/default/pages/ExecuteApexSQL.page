@@ -1,0 +1,35 @@
+<apex:page controller="ExecuteApexSQLCtrl">
+    
+   <apex:form >
+        <table border="0" width="900px" style="margin:auto;margin-top:100px" >
+            
+            <tr>
+                
+                <td width='10%'>开始时间:</td>
+                <td width='20%'>
+                    <!--<input type="text" id="accountId" style="width:90%" value="{!startDate}" /> -->
+                    <apex:inputText style="width:90%" value="{!startDate}" /> 
+                </td>
+                <td width='10%'>结束时间:</td>
+                <td width='20%'><apex:inputText style="width:90%" value="{!endDate}" /> </td>
+                <td width='10%'>索引字段:</td>
+                <td width='20%'>
+                    <apex:inputText style="width:90%" value="{!IndexField}" />
+                     </td>
+                
+                <td width='10%'><apex:commandButton action="{!getData}" value="提交" /> </td>
+            </tr>
+            
+        </table> 
+       
+        <div style="margin-bottom:60px;"></div>
+        <div id="responseErrors">
+       		<apex:outputText value="{!objListSize}" label="数量"></apex:outputText>
+        </div> 
+        
+        
+       </apex:form>
+
+    		
+    
+    </apex:page>

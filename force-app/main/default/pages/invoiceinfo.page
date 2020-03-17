@@ -1,0 +1,4 @@
+<apex:page standardController="invoice__c" >
+ 
+    <h5 style ='font-family:微软雅黑;color: #ff0000;font-size:14px;margin-bottom:10px'>★ 应公司财务部要求(原因请查看财务发文邮件)，2019年3月30日 上午8:00 至 2019年4月1日 上午8:00，SOSP中的开票申请功能暂时关闭。可正常录入开票信息，但不能提交审批。请知晓。</h5>
+</apex:page>

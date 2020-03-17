@@ -1,0 +1,39 @@
+<apex:page standardController="competitiveStrategyPlan__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table">
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+        
+        <!-- taskCategory__c taskDescription__c successStandard__c date__c main__c sourceBy__c completeStatus__c -->
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.taskCategory__c.label}">
+          <apex:inputField required="true" value="{!c.taskCategory__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.taskDescription__c.label}">
+          <apex:inputField required="false" value="{!c.taskDescription__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.successStandard__c.label}">
+          <apex:inputField required="false" value="{!c.successStandard__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.date__c.label}">
+          <apex:inputField value="{!c.date__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.main__c.label}">
+          <apex:inputField value="{!c.main__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.sourceBy__c.label}">
+          <apex:inputField value="{!c.sourceBy__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.competitiveStrategyPlan__c.fields.completeStatus__c.label}">
+          <apex:inputField value="{!c.completeStatus__c}"/>
+        </apex:column> 
+        
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

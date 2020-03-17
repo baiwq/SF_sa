@@ -1,0 +1,8 @@
+<apex:page standardController="tbbaozhengjin__c" >
+ 
+    <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:5px'>★ 汇款单备注，不能超过20个字（仅指汉字、英文字母和数字），因网银的限制不得录入空格及符号（*、-、+、“”、：、/、（）等）;信息录入错误，罚款10元</h3><br/>
+    <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:5px'>&nbsp;&nbsp;</h3><br/>
+
+    <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:5px'>★ 保证金文件摘要: 招标文件首页、保证金金额说明页、银行账户页.</h3><br/>
+
+</apex:page>

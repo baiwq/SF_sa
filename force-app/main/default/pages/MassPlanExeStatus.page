@@ -1,0 +1,39 @@
+<apex:page standardController="PlanAndExeStatus__c" recordSetVar="plans" sidebar="false">
+  <apex:form >
+   <apex:pageMessages ></apex:pageMessages>
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      
+    <!--  <h1 style ='font-family:微软雅黑;color: #ff0000;font-size:13px;'>注意：付款所有阶段不能超出 100%</h1><br/> -->
+      <apex:pageBlockTable value="{!selected}" var="c" id="table" >
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.Name.label}">
+          <apex:inputField value="{!c.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.type__c.label}">
+          <apex:inputField value="{!c.type__c}"/>
+        </apex:column>
+       
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.weight__c.label}">
+          <apex:inputField required="false" value="{!c.weight__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.target__c.label}">
+          <apex:inputField required="false" value="{!c.target__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.reviewStandard__c.label}">
+          <apex:inputField required="false" value="{!c.reviewStandard__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.selfScore__c.label}">
+          <apex:inputField required="false" value="{!c.selfScore__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.PlanAndExeStatus__c.fields.finalScore__c.label}">
+          <apex:inputField required="false" value="{!c.finalScore__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

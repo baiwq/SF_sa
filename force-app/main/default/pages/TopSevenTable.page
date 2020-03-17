@@ -1,0 +1,410 @@
+<apex:page sidebar="false" showHeader="false" standardController="Opportunity" extensions="TopOpportunityCtrl" standardStylesheets="true">      
+    <apex:includescript value="{!URLFOR($Resource.BootJS, 'BootJS/jquery-3.2.1.js')}" />   
+    <c:importvisualstrap theme="default" />     
+    <c:visualstrapblock id="strap">
+    <style>
+       .requiredInput{
+           position: relative;
+       }       
+       .requiredBlock{
+           background-color: #c00;
+           position: absolute;
+           left: -4px;
+           width: 3px;
+           top: 1px;
+           bottom: 1px;
+       }
+       p{
+           display:none;
+       }
+       
+   
+    </style>
+    <script>
+        
+    </script>
+    <div id="t1">
+        <apex:form id="theForm1" >            
+        <c:panel >  
+        <div>
+            <left>           
+                <div  style="margin:10px 0 10px 10px;font-size:20px">买点卖点匹配表<span title="【价格】：由项目负责人指定销售岗位填写;【交期】：由项目负责人指定销售岗位填写;【售后服务】：由项目负责人指定销售岗位填写;【质量】：由项目负责人指定解决方案代表填写;【产品技术方案】：由项目负责人指定解决方案代表或研发工程师填写;【其他】：由项目负责人指定解决方案代表或研发工程师填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> </div>                  
+            </left>    
+        </div>            
+        <apex:variable value="{!0}" var="rowNum"/>                    
+        <apex:dataTable value="{!SPMList}" var="spm" styleclass="table table-condensed">   
+                
+            <apex:column headerValue="操作">
+                <apex:commandButton value="删除" action="{!SPMremove}"  rerender="theForm1"  immediate="true" styleclass="btn btn-danger btn-xs" rendered="{!spm.tempSPM}">
+                    <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row1}"/>
+                </apex:commandButton>
+                <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                <apex:commandButton value="编辑" action="{!SPMeditOne}" rerender="theForm1" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!spm.spmSign}"> 
+                    <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row1}"/>
+                </apex:commandButton>
+            </apex:column>                                    
+            <apex:column headerValue="匹配项目">
+                <apex:inputField value="{!spm.record.sellingPoint__c}" rendered="{!spm.spmSign}" required="true" />
+                <apex:outputField value="{!spm.record.sellingPoint__c}" rendered="{!!spm.spmSign}" />
+            </apex:column>            
+            <apex:column headerValue="客户买点">              
+                <apex:inputField value="{!spm.record.buyingPoint__c}" rendered="{!spm.spmSign}"  required="true"/>                
+                <apex:outputField value="{!spm.record.buyingPoint__c}" rendered="{!!spm.spmSign}"  />
+            </apex:column>
+            <apex:column headerValue="我方卖点">
+                <apex:inputField value="{!spm.record.valuePoint__c}" rendered="{!spm.spmSign}" required="true" />
+                <apex:outputField value="{!spm.record.valuePoint__c}" rendered="{!!spm.spmSign}"/>
+            </apex:column>
+            <apex:column headerValue="重要程度">
+                <apex:inputfield value="{!spm.record.importance__c}" rendered="{!spm.spmSign}" required="true"/>
+                <apex:outputfield value="{!spm.record.importance__c}" rendered="{!!spm.spmSign}"/>
+            </apex:column>
+            <apex:column headerValue="匹配度">
+                <apex:inputField value="{!spm.record.matchPercentage__c}" rendered="{!spm.spmSign}" required="true"/>
+                <apex:outputField value="{!spm.record.matchPercentage__c}" rendered="{!!spm.spmSign}"/>
+            </apex:column>                         
+            <apex:column headerValue="引导方向">
+                <apex:inputField value="{!spm.record.guideDirection__c}" rendered="{!spm.spmSign}" required="true"/>
+                <apex:outputField value="{!spm.record.guideDirection__c}" rendered="{!!spm.spmSign}" />
+            </apex:column>              
+        </apex:dataTable>
+        <c:column type="col-md-1" >
+            <apex:commandButton value="添  加" action="{!SPMadd}" rerender="theForm1" immediate="true" styleclass="btn btn-primary  btn-xs" />  
+        </c:column>
+        <c:column type="col-md-10" />
+        <c:column type="col-md-1">  
+            <apex:commandButton value="保  存" action="{!SPMsave}" rendered="{!f1}" rerender="theForm1" styleclass="btn btn-success  btn-xs" />     
+        </c:column>                  
+        </c:panel>       
+    </apex:form>  
+    </div>
+    <div id="t2">
+        <apex:form id="theForm2">     
+            <c:panel >             
+        <div>
+            <left>           
+                <div style="margin:10px 0 10px 10px;font-size:20px">商务竞争态势分析表<span title="由项目负责人指定销售岗位填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  </div>                  
+            </left>    
+        </div>  
+            <apex:variable value="{!0}"  var="rowNum"/>             
+            <apex:dataTable value="{!BCSList}" var="bcs" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!BCSremove}"  rerender="theForm2" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!bcs.tempBCS}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row2}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!BCSeditOne}" rerender="theForm2" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!bcs.bcsSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row2}"/>
+                    </apex:commandButton>
+                </apex:column>                                
+                <apex:column headerValue="竞争对手">
+                    <apex:inputField value="{!bcs.record.competitor__c}"  rendered="{!bcs.bcsSign}" required="true"/>
+                    <apex:outputField value="{!bcs.record.competitor__c}"  rendered="{!!bcs.bcsSign}" />
+                </apex:column>            
+                <apex:column headerValue="客户关系">
+                    <apex:inputField value="{!bcs.record.accountRelationship__c}"  rendered="{!bcs.bcsSign}" required="true"/>
+                    <apex:outputField value="{!bcs.record.accountRelationship__c}"  rendered="{!!bcs.bcsSign}"/>
+                </apex:column>
+                <apex:column headerValue="历史价格">
+                    <apex:inputField value="{!bcs.record.priceHistory__c}"  rendered="{!bcs.bcsSign}" required="true" />
+                    <apex:outputField value="{!bcs.record.priceHistory__c}"  rendered="{!!bcs.bcsSign}"/>
+                </apex:column>
+                <apex:column headerValue="交期">
+                    <apex:inputfield value="{!bcs.record.deliverDate__c}" rendered="{!bcs.bcsSign}" required="true"/>
+                    <apex:outputField value="{!bcs.record.deliverDate__c}" rendered="{!!bcs.bcsSign}"/>
+                </apex:column>
+                <apex:column headerValue="历史交易情况">
+                    <apex:inputField value="{!bcs.record.dealHistory__c}"  rendered="{!bcs.bcsSign}" required="true"/>
+                    <apex:outputField value="{!bcs.record.dealHistory__c}"  rendered="{!!bcs.bcsSign}"/>
+                </apex:column>      
+                <apex:column headerValue="其他">
+                    <apex:inputField value="{!bcs.record.other__c}"  rendered="{!bcs.bcsSign}" required="true"/>
+                    <apex:outputField value="{!bcs.record.other__c}"  rendered="{!!bcs.bcsSign}"/>
+                </apex:column>                 
+            </apex:dataTable>         
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!BCSadd}" rerender="theForm2"  immediate="true" styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!BCSsave}" rendered="{!f2}" rerender="theForm2" styleclass="btn btn-success btn-xs" />     
+            </c:column>                   
+            </c:panel>
+        </apex:form>   
+    </div>
+    <div id="t3">
+        <apex:form id="theForm3">     
+            <c:panel >  
+            <div> 
+            <left>            
+                <div style="margin:10px 0 10px 10px;font-size:20px">技术竞争态势分析表<span title="由项目负责人指定解决方案代表或研发工程师填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> </div>                  
+            </left>    
+            </div>             
+            <apex:variable value="{!0}"  var="rowNum"/>             
+            <apex:dataTable value="{!TCSList}" var="tcs" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!TCSremove}"  rerender="theForm3" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!tcs.tempTCS}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row3}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!TCSeditOne}" rerender="theForm3" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!tcs.tcsSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row3}"/>
+                    </apex:commandButton>
+                </apex:column>                              
+                <apex:column headerValue="竞争对手">
+                    <apex:inputField value="{!tcs.record.competitor__c}"  rendered="{!tcs.tcsSign}"  required="true"/>
+                    <apex:outputField value="{!tcs.record.competitor__c}"  rendered="{!!tcs.tcsSign}"/>
+                </apex:column>            
+                <apex:column headerValue="我公司情况">
+                    <apex:inputField value="{!tcs.record.companyStatus__c}"  rendered="{!tcs.tcsSign}" required="true" />
+                    <apex:outputField value="{!tcs.record.companyStatus__c}"  rendered="{!!tcs.tcsSign}"/>
+                </apex:column>
+                <apex:column headerValue="产品技术方案">
+                    <apex:inputField value="{!tcs.record.productTechniquePlan__c}"  rendered="{!tcs.tcsSign}" required="true"/>
+                    <apex:outputField value="{!tcs.record.productTechniquePlan__c}"  rendered="{!!tcs.tcsSign}"/>
+                </apex:column>
+                
+                <apex:column headerValue="售后服务">
+                    <apex:inputfield value="{!tcs.record.afterService__c}"  rendered="{!tcs.tcsSign}" required="true"/>
+                    <apex:outputField value="{!tcs.record.afterService__c}"  rendered="{!!tcs.tcsSign}"/>
+                </apex:column>
+                
+                <apex:column headerValue="质量">
+                    <apex:inputField value="{!tcs.record.quality__c}"  rendered="{!tcs.tcsSign}" required="true"/>
+                    <apex:outputField value="{!tcs.record.quality__c}"  rendered="{!!tcs.tcsSign}"/>
+                </apex:column>                  
+            </apex:dataTable>
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!TCSadd}" rerender="theForm3"  immediate="true"  styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!TCSsave}" rendered="{!f3}" rerender="theForm3" styleclass="btn btn-success btn-xs" />     
+            </c:column>           
+            </c:panel>
+        </apex:form>     
+    </div>
+    <div id="t4">
+        <apex:form id="theForm4">     
+            <c:panel >     
+            <div>
+            <left>           
+                <div style="margin:10px 0 10px 10px;font-size:20px">行动计划表<span title="由项目负责人填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  </div>                  
+            </left>    
+            </div>          
+            <apex:variable value="{!0}"  var="rowNum"/>             
+            <apex:dataTable value="{!APList}" var="ap" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!APremove}"  rerender="theForm4" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!ap.tempAP}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row4}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!APeditOne}" rerender="theForm4" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!ap.apSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row4}"/>
+                    </apex:commandButton>
+                </apex:column>
+                <apex:column headerValue="主责人">
+                    <apex:inputField value="{!ap.record.responsibility__c }"  Rendered="{!ap.apSign}"  required="true"/>
+                    <apex:outputField value="{!ap.record.responsibility__c }"  Rendered="{!!ap.apSign}"/>
+                </apex:column>                 
+                <apex:column headerValue="成功标准">
+                    <apex:inputField value="{!ap.record.successStandard__c}"  Rendered="{!ap.apSign}"  required="true"/>
+                    <apex:outputField value="{!ap.record.successStandard__c}"  Rendered="{!!ap.apSign}"/>
+                </apex:column>            
+                <apex:column headerValue="关键任务描述">
+                    <apex:inputField value="{!ap.record.keyTaskDestription__c}"  Rendered="{!ap.apSign}"  required="true"/>
+                    <apex:outputField value="{!ap.record.keyTaskDestription__c}"  Rendered="{!!ap.apSign}"/>
+                </apex:column>
+                
+                <apex:column headerValue="时间节点">
+                    <apex:inputField value="{!ap.record.timeStage__c}"  Rendered="{!ap.apSign}"  required="true"/>
+                    <apex:outputField value="{!ap.record.timeStage__c}"  Rendered="{!!ap.apSign}"/>
+                </apex:column>
+               
+                <apex:column headerValue="所需资源与配合">
+                    <apex:inputfield value="{!ap.record.resourceAndCoordination__c}"  Rendered="{!ap.apSign}"  required="true"/>
+                    <apex:outputField value="{!ap.record.resourceAndCoordination__c}"  Rendered="{!!ap.apSign}"/>
+                </apex:column>
+                <apex:column headerValue="完成情况和风险">
+                    <apex:inputField value="{!ap.record.completionAndRisk__c}"  Rendered="{!ap.apSign}" required="true"/>
+                    <apex:outputField value="{!ap.record.completionAndRisk__c}"  Rendered="{!!ap.apSign}"/>
+                </apex:column>                               
+            </apex:dataTable>          
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!APadd}" rerender="theForm4"  immediate="true" styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!APsave}" rendered="{!f4}" rerender="theForm4" styleclass="btn btn-success btn-xs" />     
+            </c:column>                     
+            </c:panel>
+        </apex:form>
+    </div>
+    <div id="t5">
+        <apex:form id="theForm5">     
+            <c:panel >         
+            <div>
+            <left>           
+                <div style="margin:10px 0 10px 10px;font-size:20px">谈判计划表<span title="由项目负责人填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  </div>                  
+            </left>    
+            </div>     
+            <apex:variable value="{!0}"  var="rowNum"/>                      
+            <apex:dataTable value="{!NSList}" var="ns" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!NSremove}"  rerender="theForm5" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!ns.tempNS}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row5}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!NSeditOne}" rerender="theForm5" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!ns.nsSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row5}"/>
+                    </apex:commandButton>
+                </apex:column>                
+                <apex:column headerValue="主谈人">
+                    <apex:inputfield value="{!ns.record.negotiateBy__c}"  rendered="{!ns.nsSign}"  required="true"/>
+                    <apex:outputField value="{!ns.record.negotiateBy__c}"  rendered="{!!ns.nsSign}"/>
+                </apex:column>
+                <apex:column headerValue="谈判目标">
+                    <apex:inputField value="{!ns.record.goal__c}"  rendered="{!ns.nsSign}"  required="true"/>
+                    <apex:outputField value="{!ns.record.goal__c}"  rendered="{!!ns.nsSign}"/>
+                </apex:column>            
+                <apex:column headerValue="谈判时间">
+                    <apex:inputField value="{!ns.record.date__c}"  rendered="{!ns.nsSign}"  required="true" />
+                    <apex:outputField value="{!ns.record.date__c}"  rendered="{!!ns.nsSign}" />
+                </apex:column>
+                <apex:column headerValue="谈判地点">
+                    <apex:inputField value="{!ns.record.location__c}"  rendered="{!ns.nsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.location__c}"  rendered="{!!ns.nsSign}"/>
+                </apex:column>               
+                <apex:column headerValue="谈判结果">     
+                    <apex:inputField value="{!ns.record.result__c}"  rendered="{!ns.nsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.result__c}"  rendered="{!!ns.nsSign}"/>
+                </apex:column>               
+            </apex:dataTable>
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!NSadd}" rerender="theForm5"  immediate="true" styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!NSsave}" rendered="{!f5}" rerender="theForm5" styleclass="btn btn-success btn-xs" />     
+            </c:column>                  
+            </c:panel>
+        </apex:form> 
+    </div>
+    <div id="t6">
+        <apex:form id="theForm6">     
+            <c:panel >  
+            <div>
+            <left>           
+                <div style="margin:10px 0 10px 10px;font-size:20px">商务谈判策略表<span title="由项目负责人指定销售岗位填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  </div>                  
+            </left>    
+            </div>               
+            <apex:variable value="{!0}"  var="rowNum"/>             
+            <apex:dataTable value="{!BNSList}" var="ns" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!BNSremove}"  rerender="theForm6" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!ns.tempBNS}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row6}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!BNSeditOne}" rerender="theForm6" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!ns.bnsSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row6}"/>
+                    </apex:commandButton>
+                </apex:column>                 
+                <apex:column headerValue="报价方案">
+                    <apex:inputField value="{!ns.record.quotePlan__c}"  rendered="{!ns.bnsSign}" required="true" />
+                    <apex:outputField value="{!ns.record.quotePlan__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>            
+                <apex:column headerValue="得让策略">
+                    <apex:inputField value="{!ns.record.strategyTechnique__c}"  rendered="{!ns.bnsSign}" required="true" />
+                    <apex:outputField value="{!ns.record.strategyTechnique__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="付款条件">
+                    <apex:inputField value="{!ns.record.payment__c}"  rendered="{!ns.bnsSign}" required="true" />
+                    <apex:outputField value="{!ns.record.payment__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="交期">
+                    <apex:inputfield value="{!ns.record.deliverDate__c}"  rendered="{!ns.bnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.deliverDate__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="客户要求">
+                    <apex:inputField value="{!ns.record.accountRequirement__c}"  rendered="{!ns.bnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.accountRequirement__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="其他">
+                    <apex:inputField value="{!ns.record.other__c}"  rendered="{!ns.bnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.other__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="我方底线">
+                    <apex:inputField value="{!ns.record.bottomLine__c}"  rendered="{!ns.bnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.bottomLine__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="运输方案">
+                    <apex:inputField value="{!ns.record.transportPlan__c}"  rendered="{!ns.bnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.transportPlan__c}"  rendered="{!!ns.bnsSign}"/>
+                </apex:column>               
+            </apex:dataTable>
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!BNSadd}" rerender="theForm6"  immediate="true" styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!BNSsave}" rendered="{!f6}" rerender="theForm6" styleclass="btn btn-success btn-xs" />     
+            </c:column>       
+            </c:panel>
+        </apex:form>   
+    </div>
+    <div id="t7">
+        <apex:form id="theForm7">     
+            <c:panel >     
+            <div>
+            <left>           
+                <div style="margin:10px 0 10px 10px;font-size:20px">技术谈判策略表<span title="由项目负责人指定解决方案代表或研发工程师填写" style="top: 3px;left: 10px;" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  </div>                  
+            </left>    
+            </div>          
+            <apex:variable value="{!0}"  var="rowNum"/>                     
+            <apex:dataTable value="{!TNSList}" var="ns" styleclass="table table-condensed">       
+                <apex:column headerValue="操作">
+                    <apex:commandButton value="删除" action="{!TNSremove}"  rerender="theForm7" immediate="true"  styleclass="btn btn-danger btn-xs" rendered="{!ns.tempTNS}">
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row7}"/>
+                    </apex:commandButton>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                    <apex:commandButton value="编辑" action="{!TNSeditOne}" rerender="theForm7" immediate="true" styleclass="btn btn-primary  btn-xs" rendered="{!!ns.tnsSign}"> 
+                        <apex:param value="{!rowNum}" name="rowToRemove" assignTo="{!row7}"/>
+                    </apex:commandButton>                 
+                </apex:column>                  
+                <apex:column headerValue="产品技术方案">
+                    <apex:inputField value="{!ns.record.productTechniquePlan__c}"  rendered="{!ns.tnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.productTechniquePlan__c}"  rendered="{!!ns.tnsSign}"/>
+                </apex:column>            
+                <apex:column headerValue="得让策略">
+                    <apex:inputField value="{!ns.record.strategyTechnique__c}"  rendered="{!ns.tnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.strategyTechnique__c}"  rendered="{!!ns.tnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="服务方案">
+                    <apex:inputField value="{!ns.record.servicePlan__c}"  rendered="{!ns.tnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.servicePlan__c}"  rendered="{!!ns.tnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="客户要求">
+                    <apex:inputField value="{!ns.record.accountRequirement__c}"  rendered="{!ns.tnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.accountRequirement__c}"  rendered="{!!ns.tnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="验收方式与标准">
+                    <apex:inputField value="{!ns.record.checkStandard__c}"  rendered="{!ns.tnsSign}" required="true"/>
+                    <apex:outputField value="{!ns.record.checkStandard__c}"  rendered="{!!ns.tnsSign}"/>
+                </apex:column>
+                <apex:column headerValue="我方底线">
+                    <apex:inputField value="{!ns.record.bottomLine__c}"  rendered="{!ns.tnsSign}" required="true"/> 
+                    <apex:outputField value="{!ns.record.bottomLine__c}"  rendered="{!!ns.tnsSign}"/> 
+                </apex:column>                             
+            </apex:dataTable>
+            <c:column type="col-md-1" >
+                <apex:commandButton value="添  加" action="{!TNSadd}" rerender="theForm7"  immediate="true" styleclass="btn btn-primary btn-xs" />  
+            </c:column>
+            <c:column type="col-md-10" />
+            <c:column type="col-md-1">
+                <apex:commandButton value="保  存" action="{!TNSsave}" rendered="{!f7}" rerender="theForm7" styleclass="btn btn-success btn-xs" />     
+            </c:column>                                  
+            </c:panel>
+        </apex:form>
+    </div>   
+    </c:visualstrapblock> 
+</apex:page>

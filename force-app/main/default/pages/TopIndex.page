@@ -1,0 +1,84 @@
+<apex:page showHeader="true" standardStylesheets="true" standardController="Opportunity" extensions="TopOpportunityCtrl" title="TOP项目管理">
+<apex:includescript value="{!URLFOR($Resource.BootJS, 'BootJS/jquery-3.2.1.js')}" /> 
+<c:importvisualstrap />
+<c:importTopSource / >
+<c:visualstrapblock >
+<html lang="en">
+    <body >
+<apex:form >
+        
+        <!-- top bar end-->
+
+        <c:column type="col-md-2" style="padding-right:0px;height: 1000px;">
+        <!--end right side bar panel-->
+
+        <!--left navigation start-->
+        <aside class="float-navigation light-navigation" style="margin-left:-30px">
+            <div class="nano">
+                <div style="    margin-top: 10px;margin-left: 15px;">
+                  <apex:image value="{!URLFOR(PhotoUrl)}" height="50px" width="50px" style="border-radius:50%;margin-left: 15px;"/>
+                  <span style="position: absolute;padding-left: 10px;font-family: 'Roboto', sans-serif;">
+                     <div style="font-size: 16px;font-weight: 600;padding-top: 5px;">{!Name}</div>
+                     <div style="color: #98a6ad;">{!UEmail}</div>
+                  </span>
+                </div>
+                <div class="nano-content">
+                    <ul class="metisMenu nav" id="menu" style="padding-top:20px">
+                        
+                        <li class="{!A}">
+                            <a href="javascript: void(0);" aria-expanded="true"><i class="icon-home"></i>项目概览<span class="fa arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="true">
+                                <li class="active"><apex:commandLink action="{!MA}" value="基本信息"/></li>
+                                <li><apex:commandLink action="{!MB}" value="客户组织结构图"/></li>
+                                <li><apex:commandLink action="{!MC}" value="业主单位组织结构图"/></li>
+                            </ul>
+                        </li>
+                        <li class="{!B}">
+                            <a href="javascript: void(0);" aria-expanded="true"><i class="fa fa-diamond"></i>项目重要信息<span class="fa arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="true">
+                                <li><apex:commandLink action="{!table1}" value="{!fi1}"/></li>                               
+                                <li><apex:commandLink action="{!table2}" value="{!fi2}"/></li>
+                                <li><apex:commandLink action="{!table3}" value="{!fi3}"/></li>
+                                <li><apex:commandLink action="{!table4}" value="{!fi4}"/></li>
+                                <li><apex:commandLink action="{!table5}" value="{!fi5}"/></li>
+                                <li><apex:commandLink action="{!table6}" value="{!fi6}"/></li>
+                                <li><apex:commandLink action="{!table7}" value="{!fi7}"/></li>
+                            </ul>
+                        </li>
+                        <li class="{!D}">
+                            <a href="javascript: void(0);" aria-expanded="true"><i class="icon-envelope-letter"></i>文档<span class="fa arrow"></span></a>
+                            <ul class="nav-second-level nav" aria-expanded="true">
+                            
+                                <li><apex:commandLink action="{!attachment}" value="帮助文档"/></li>
+                            
+                            </ul>
+                        </li>
+                        
+                     </ul>
+                </div><!--nano content-->
+            </div><!--nano scroll end-->
+            
+        </aside>
+        </c:column>
+        <c:column type="col-md-10" style="padding-left:5px;padding-right:0px">
+           <div class="page-header" style="color: #777; margin: 20px 0 20px;padding-top: 0px; /">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>{!o.Name}</h4>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <ol class="breadcrumb">
+                            <li style="margin-left:0px">{!o.level1center__c}</li>
+                            <li style="margin-left:0px">{!o.level2Department__c}</li>
+                            <li style="margin-left:0px">{!o.level3Province__c}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+           <apex:iframe src="{!PName}" scrolling="true" height="1000px"/>
+        </c:column>
+        </apex:form>
+    </body>
+</html>
+</c:visualstrapblock>
+</apex:page>

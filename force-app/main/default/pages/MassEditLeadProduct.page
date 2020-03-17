@@ -1,0 +1,24 @@
+<apex:page standardController="leadsProduct__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table">
+        <apex:column headerValue="{!$ObjectType.leadsProduct__c.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>   
+        <apex:column headerValue="{!$ObjectType.leadsProduct__c.fields.product__c.label}">
+          <apex:inputField required="true" value="{!c.product__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.leadsProduct__c.fields.price__c.label}">
+          <apex:inputField required="true" value="{!c.price__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.leadsProduct__c.fields.comments__c.label}">
+          <apex:inputField required="false" value="{!c.comments__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

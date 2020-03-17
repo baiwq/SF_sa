@@ -1,0 +1,53 @@
+<apex:page standardController="Opportunity" extensions="OppLightningBar" showheader="false" standardStylesheets="false">  
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js" type="text/javascript"></script>
+  <apex:stylesheet value="{!URLFOR($Resource.lightning2, 'lightning2.css')}"/>
+   
+  <script>
+    // 页面加载需要初始化数据，用JS 动态加载数据
+     window.onload = setupPage; 
+     function setupPage(){
+        var drwaStr = " ";       //定义 画图的内容
+        var currentNumber = 0;    //定义 当前处于下拉列表里哪个阶段
+        var currentStage = '{!CurrentStage}';  //定义当前阶段值
+        var abc = '{!StageNames}';  //定义 下拉列表所有值
+        
+        abc = abc.substring(1,abc.length-1); //截取 下拉列表前后的括号
+        var arr = new Array();
+        arr = abc.split(",");    // 下拉列表值转数组
+        
+        for(var a=0;a<arr.length;a++){
+          if((arr[a]).substring(1,arr[a].length)== currentStage){  //~遍历时发现每个值前面都有一个空格
+            currentNumber = a;
+          }
+        } 
+           
+        for(var b=0;b<arr.length;b++){   //画图
+         if(b < currentNumber){
+            drwaStr = drwaStr + "<li class=\"complete tabs__item uiTabItem runtime_sales_pathassistantPathAssistantTab \"><a class=\"tabHeader\" tabindex=\"-1\" href=\"javascript:void(0);\"><span class=\"complete\"><span class=\"icon-fallback-text checkmark forceIcon\" data-icon=\"\" data-key=\"check\"><span class=\"icon icon-key\"></span></span><span class=\"newAssistiveText forceIcon\">stage complete</span></span><span class=\"title\">"+ arr[b] +"</span></a></li>";  
+         }else if(b == currentNumber){
+            drwaStr = drwaStr + "<li class=\"current tabs__item active uiTabItem runtime_sales_pathassistantPathAssistantTab\"><a class=\"tabHeader\" tabindex=\"0\" href=\"javascript:void(0);\"><span class=\"current\"></span><span class=\"title\">" + arr[b] + "</span></a></li>";
+         }else if(b > currentNumber){
+            drwaStr = drwaStr + "<li class=\"ahead tabs__item uiTabItem runtime_sales_pathassistantPathAssistantTab\"><a class=\"tabHeader\" tabindex=\"-1\" href=\"javascript:void(0);\"><span class=\"ahead\"></span><span class=\"title\">"+ arr[b] +"</span></a></li>";
+         }
+        } 
+        
+        document.getElementById("urldraw").innerHTML = drwaStr;
+     }
+     
+  </script>
+  
+  <section> 
+    <div class="tabset-border desktop runtime_sales_pathassistantPathAssistantTabSet--desktop runtime_sales_pathassistantPathAssistantTabSet"> 
+      <div class="pa-scroller uiScroller scroller-wrapper scroll-horizontal"> 
+        <div class="scroller stretch"> 
+          <div class="pa-tabBar uiTabBar" role="application tablist"> 
+            <ul class="tabs__nav" role="presentation" id="urldraw"> 
+                   <!--需要插入的画图内容在此-->
+            </ul> 
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+  </section>
+  
+</apex:page>

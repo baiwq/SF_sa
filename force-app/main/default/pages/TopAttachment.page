@@ -1,0 +1,5 @@
+<apex:page showHeader="false" sidebar="false">
+    <script>
+        window.location.href="{!$Resource.TopAttachment}";
+    </script>
+</apex:page>

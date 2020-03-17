@@ -1,0 +1,60 @@
+<!--<apex:page controller="GetFileReturn" showHeader="false">-->
+<apex:page controller="GetFileReturn" showHeader="false">
+  <script type="text/javascript">
+    var __sfdcSessionId = '{!GETSESSIONID()}';
+  </script>
+  <script src="/soap/ajax/41.0/connection.js" type="text/javascript"></script>
+  
+  <script>
+     window.onload = setupPage;
+     var RecordId; 
+     function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return r[2]; return null;
+     }
+     
+     function setupPage(){
+        var FileName='{!FileName}';
+        var FileUrl='{!FileUrl}';
+        var EncryptURL=GetQueryString('FileUrl');
+        RecordId ='{!RecordId}';
+        /*var attachment = new sforce.SObject("attachment__c");
+        attachment.Id = RecordId;
+        attachment.documentName__c = FileName;
+        attachment.attachmentURL__c=FileUrl;
+        attachment.encryptURL__c=EncryptURL;
+        //attachment.attachmentURL__c=unescape('SOSP%5CContractId12345%5C%u4E2D%u6587%u6587%u4EF6.txt');
+        var result = sforce.connection.update([attachment]);
+        console.log(123);
+        if(result[0].getBoolean("success")) {
+           //alert('确认成功');
+           //window.location.reload();
+        }
+        else{
+           alert('Error : '+result);
+        } */
+        
+        Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.GetFileReturn.updateAtta}',
+          RecordId,
+          FileName,
+          FileUrl,
+         returnFunction,
+        
+          {escape: true}
+        )
+     }
+     function returnFunction(result){
+         if(result=='成功'){
+             window.location.href='/'+'{!RecordId}';
+         }
+         
+     }
+     //window.setTimeout(function() {
+            //window.location.href='/'+'{!RecordId}';
+     //}, 500);
+     
+  </script>
+  <h1>数据更新中...</h1>
+</apex:page>

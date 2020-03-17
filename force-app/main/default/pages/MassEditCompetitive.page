@@ -1,0 +1,79 @@
+<apex:page standardController="competitive__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table">
+      
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.competitor__c.label}">
+          <apex:inputField required="false" value="{!c.competitor__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.competitorScore__c.label}">
+          <apex:inputField required="false" value="{!c.competitorScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.relationship__c.label}">
+          <apex:inputField value="{!c.relationship__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.relationshipScore__c.label}">
+          <apex:inputField value="{!c.relationshipScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.solutions__c.label}">
+          <apex:inputField required="false" value="{!c.solutions__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.solutionsScore__c.label}">
+          <apex:inputField required="false" value="{!c.solutionsScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.priceHistory__c.label}">
+          <apex:inputField value="{!c.priceHistory__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.priceHistoryScore__c.label}">
+          <apex:inputField value="{!c.priceHistoryScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.quality__c.label}">
+          <apex:inputField value="{!c.quality__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.qualityScore__c.label}">
+          <apex:inputField value="{!c.qualityScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.dealHistory__c.label}">
+          <apex:inputField value="{!c.dealHistory__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.dealHistoryScore__c.label}">
+          <apex:inputField value="{!c.dealHistoryScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.delivery__c.label}">
+          <apex:inputField required="false" value="{!c.delivery__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.deliveryScore__c.label}">
+          <apex:inputField required="false" value="{!c.deliveryScore__c}"/>
+        </apex:column>
+       
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.support__c.label}">
+          <apex:inputField value="{!c.support__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.supportScore__c.label}">
+          <apex:inputField value="{!c.supportScore__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.other__c.label}">
+          <apex:inputField value="{!c.other__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.competitive__c.fields.otherScore__c.label}">
+          <apex:inputField value="{!c.otherScore__c}"/>
+        </apex:column>
+        
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,26 @@
+<apex:page standardController="contractreview__c" >
+
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>事业部业绩确认说明:</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>9月1日起，合同评审需事业部参与拆分供货范围中的事业部业绩，系统会自动发送邮件提醒事业部负责人拆分供货范围和业绩。<br/>如未拆分，请销售，在提交评审前，@主责事业部负责人参与合同评审事业部业绩拆分</h3><br/>
+<br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-国网业务部-王彦辉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-东北区-徐曙光</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-华北区-靳欢欢&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-西北区、新疆项目部-周宝成</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-华中区-常骏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-华东区-张云</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网保护自动化事业部-华南区-张华娇&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电网控制事业部-李莉</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>智能运行管控事业部-卜少明&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>电站事业部 -王海燕</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>仿真事业部-葛莉瑶&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>公共电力事业部-陈方勤</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>培训业务部-胡翠蓉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>配电开关-戴昌清</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>配用电业务-戴昌清&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>直流输电及电力电子产品-张研/袁占辉/李福龙 </h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>感应加热与高频电源产品-张剑雪&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>EPC业务单元-陈小媚</h3><br/>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>四方星途-陈小媚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+<h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>四方智能-杨咏林</h3><br/>
+</apex:page>

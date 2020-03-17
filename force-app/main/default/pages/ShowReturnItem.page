@@ -1,0 +1,30 @@
+<apex:page standardController="contractFee__c" extensions="QueryReturnItem" sidebar="false" docType="html-5.0" showHeader="false" standardStylesheets="true">
+  <c:importvisualstrap theme="default" />
+  <c:visualstrapblock id="strap">
+     <style>
+        a{
+            pointer-events: none;  
+         }
+    </style>
+    <c:row >
+       <c:column type="col-md-12">
+              <apex:datatable value="{!ReturnItemList}" var="al" styleclass="table table-condensed" >    
+                  <apex:column headervalue="回款项编号" value="{!al.Name}"  /> 
+                  <apex:column headervalue="所属回款编号" value="{!al.returnPool__c }"  /> 
+                  <apex:column headervalue="合同号" value="{!al.contracts__c }"  /> 
+                  <apex:column headervalue="合同金额" value="{!al.contractAmount__c }"  /> 
+                  <apex:column headervalue="分配金额" value="{!al.amount__c }"  /> 
+                  <apex:column headervalue="回款比例(%)" value="{!al.returnPercent__c }"  /> 
+                  <apex:column headervalue="清分日期" value="{!al.returnDate__c }"  /> 
+                  <apex:column headervalue="应收/预收" value="{!al.incomeType__c }"  /> 
+                  <apex:column headervalue="合同签订公司" value="{!al.subCompany__c }"  /> 
+                    <apex:column headervalue="回款责任人" value="{!al.returnUserName__c }"  /> 
+                  
+              </apex:datatable>  
+        </c:column>  
+
+    </c:row>
+    
+  </c:visualstrapblock>
+  
+</apex:page>

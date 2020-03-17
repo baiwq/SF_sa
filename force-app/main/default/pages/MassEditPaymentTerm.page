@@ -1,0 +1,24 @@
+<apex:page standardController="paymentTerm__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="v" id="table">
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.Name.label}">
+          <apex:outputField value="{!v.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}">
+          <apex:inputField required="false" value="{!v.percentage__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.days__c.label}">
+          <apex:inputField required="false" value="{!v.days__c}"/>
+        </apex:column>  
+        <apex:column headerValue="{!$ObjectType.paymentTerm__c.fields.comments__c.label}">
+          <apex:inputField required="false" value="{!v.comments__c}"/>
+        </apex:column>  
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

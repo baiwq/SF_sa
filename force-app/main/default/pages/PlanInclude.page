@@ -1,0 +1,50 @@
+<apex:page standardController="Plan__c" extensions="PlanValuecontroller" sidebar="false" docType="html-5.0" showHeader="false" standardStylesheets="true">
+  <c:importvisualstrap theme="default" />
+  <c:visualstrapblock id="strap">
+    <apex:pageMessages ></apex:pageMessages>
+    <c:row >
+    <c:column type="col-xs-12">
+      <c:column type="col-xs-1">
+        <div style="float:right;height:20px;line-height:23px;font-weight:bold">
+         <center style='font-size:10px;font-family:Georgia,Helvetica,sans-serif'>  
+            合同完成:
+         </center>
+        </div>
+      </c:column>
+      <c:column type="col-xs-5">
+         <center>  
+           <!-- <c:progressbar type="danger" striped="false" value="{!returnP}" animated="false" /> -->
+             <div class="progress progress-striped active" style="">
+                 <div aria-valuemax="100.0" aria-valuemin="0.0" aria-valuenow="{!returnP}" class="progress-bar progress-bar-primary" role="progressbar" style="width: {!returnP}%;">
+                    {!returnP}%
+                </div>
+               <!-- <div class="progress-bar progress-bar-success progress-bar-striped progress-striped active" style="width: {!returnP}%;background-color:#">
+                   <span class="sr-only">{!returnP}% Complete (success)</span>
+                </div>  -->
+             </div>  
+         </center>
+      </c:column>
+      <c:column type="col-xs-1">
+        <div style="float:right;height:20px;line-height:23px;font-weight:bold">
+         <center style='font-size:10px;font-family:Georgia,Helvetica,sans-serif'>  
+            回款完成:
+         </center>
+        </div>
+      </c:column>
+      <c:column type="col-xs-5">
+         <center>  
+          <div class="progress progress-striped active" style="">
+                 <div aria-valuemax="100.0" aria-valuemin="0.0" aria-valuenow="{!invoiceP1}" class="progress-bar progress-bar-primary" role="progressbar" style="width: {!invoiceP1}%;">
+                    {!invoiceP1}%
+                </div>
+           
+           </div>  
+           
+         </center>          
+      </c:column>
+    </c:column>
+    </c:row>
+    
+  </c:visualstrapblock>
+  
+</apex:page>

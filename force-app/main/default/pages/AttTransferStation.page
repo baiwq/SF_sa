@@ -1,0 +1,69 @@
+<apex:page showHeader="false" title="TOKEN校验">
+   <script type="text/javascript">
+    var __sfdcSessionId = '{!GETSESSIONID()}';
+   </script>
+   <script src="/soap/ajax/37.0/connection.js" type="text/javascript"></script>
+   <script src="/soap/ajax/37.0/apex.js" type="text/javascript"></script>
+   
+   <script>
+      window.onload = setup;
+      function setup(){
+         var pId = window.location.href;
+         
+         pId = pId.substring(pId.indexOf('=')+1,pId.length);
+         var result = sforce.connection.query("Select Id, type__c, URLAddress__c, attachmentURL__c from attachment__c where id ='" + pId + "'").getArray('records');
+         if(result[0].attachmentURL__c ==''||result[0].attachmentURL__c == null){
+            var token = sforce.apex.execute("FileServerMethod", "ext",{});
+           
+            var atType = result[0].type__c;
+            if(atType=='合同文本'){
+                atType='HTWB';
+            }else if(atType=='供货范围清单'){
+                atType='GHFWQD';
+            }else if(atType=='项目评审目录'){
+                atType='XMPSML';
+            }else if(atType=='技术协议'){
+                atType='JSXY';
+            }else if(atType=='技术投标文件'){
+                atType='JSTBWJ';
+            }else if(atType=='中标通知'){
+                atType='ZBTZ';
+            }else if(atType=='非常用外购'){
+                atType='FCYWG';
+            }else if(atType=='招标文件'){
+                atType='ZBWJ';
+            }else if(atType=='标书归档-价格类'){
+                atType='BSGDJGL';
+            }else if(atType=='标书归档-非价格类'){
+                atType='BSGDFJGL';
+            }else if(atType=='标准报价'){
+                atType='BZBJ';
+            }else if(atType=='投标报价'){
+                atType='BTBJ';
+            }else if(atType=='合同变更证明材料'){
+                atType='BGZM';
+             }else if(atType=='收据扫描件'){
+                atType='SJSM';
+            }else if(atType=='TOP项目过程文件'){
+                atType='TOPWJ';
+            }else if(atType=='项目前期资料'){
+                atType='QQZL';
+            }else if(atType=='其他'){
+                atType='QT';
+            } 
+            
+            if((result[0].URLAddress__c).indexOf('ap7') > 0){
+               window.location.href = "http://42.159.82.230:8082/uploader/uploadfile.aspx?FolderUrl=SOSP\\" + atType + "&token=" + token + "&ReturnUrl=https" + result[0].URLAddress__c + "RecordId=" + result[0].Id;
+            }else{
+               window.location.href = "http://114.255.72.76:8082/uploader/uploadfile.aspx?FolderUrl=SOSP\\" + atType + "&token=" + token + "&ReturnUrl=https" + result[0].URLAddress__c + "RecordId=" + result[0].Id;
+            }
+            
+         }else{
+            alert('不允许修改历史附件，如需上传新附件，请将该附件置为无效，再创建新附件!');
+            window.location.href = "/" + result[0].Id;
+         }
+        
+      }
+   </script>
+   系统正在进行安全性校验,请稍等...
+</apex:page>

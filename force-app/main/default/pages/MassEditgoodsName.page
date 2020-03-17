@@ -1,0 +1,36 @@
+<apex:page standardController="goodsName__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="v" id="table">
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.invoice__c.label}">
+          <apex:inputField required="true" value="{!v.invoice__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.goodsName__c.label}">
+          <apex:inputField required="true" value="{!v.goodsName__c}"/>
+        </apex:column>  
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.Name.label}">
+          <apex:inputField required="true" value="{!v.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.specificationsModel__c.label}">
+          <apex:inputField required="false" value="{!v.specificationsModel__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.unit__c.label}">
+          <apex:inputField required="true" value="{!v.unit__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.quantity__c.label}">
+          <apex:inputField required="true" value="{!v.quantity__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.amount__c.label}">
+          <apex:inputField required="true" value="{!v.amount__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.goodsName__c.fields.price__c.label}">
+          <apex:inputField required="true" value="{!v.price__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

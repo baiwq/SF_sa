@@ -1,0 +1,5 @@
+<apex:page standardController="Contract__c" showHeader="false" sidebar="false">
+    <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>1.此申请仅适用于合同超质保情况，在质保期内的紧急事件请在线下联系工程服务部门或项目管理部门；</h3>
+    <br/>
+    <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:10px;margin-bottom:10px'>2.此申请适用于用户要求供货日期小于10天，超过10天定义为非紧急事件，非紧急事件请按照正常流程进行。</h3>
+</apex:page>

@@ -1,0 +1,12 @@
+<apex:page standardController="quatation__c" extensions="BarChartController">
+    <!-- Page: -->
+    <apex:chart height="400" width="100%" data="{!pDate}">
+        <apex:axis position="left" type="Category" fields="name"></apex:axis>
+        <apex:axis type="Numeric" position="bottom" fields="bidprice"/>
+        <apex:barSeries title="投标价,标准价" tips="false" orientation="horizontal" axis="bottom" xField="bidprice,standprice" xPadding="10" yField="name"  colorSet="red,#EAEAEA" highlight="true">
+            <apex:chartLabel display="under"  field="bidname" font="12pt" />
+            
+        </apex:barSeries>
+        <apex:legend position="right" />
+    </apex:chart>    
+</apex:page>

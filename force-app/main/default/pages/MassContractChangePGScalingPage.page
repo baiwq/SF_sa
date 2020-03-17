@@ -1,0 +1,45 @@
+<apex:page standardController="ContractChangePGScaling__c" recordSetVar="ContractChangePGScalings" sidebar="false" extensions="ContractChangePGScalingController">
+  <apex:form >
+   <apex:pageMessages ></apex:pageMessages>
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      
+      <h1 style ='font-family:微软雅黑;color: #ff0000;font-size:13px;'>注意：事业部分配业绩比例总和不能超过100%，业绩金额和分配比例选一项填写即可</h1><br/>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table" >
+        <!--合同变更事业部业绩比例分配编号 -->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+          
+         <!--合同管理事业部业绩比例分配 -->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.ContractPGScaling__c.label}">
+          <apex:outputField value="{!c.ContractPGScaling__c	}"/>
+        </apex:column>
+
+        <!--合同号-->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.Contract__c.label}">
+          <apex:outputField value="{!c.Contract__c }"/>
+        </apex:column>
+        
+        <!--所属事业部 -->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.ProductGroup__c.label}">
+          <apex:inputField required="true" value="{!c.ProductGroup__c}"/>
+        </apex:column>
+        
+        <!--业绩金额 -->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.PerformanceAmount__c.label}">
+          <apex:inputField required="false" value="{!c.PerformanceAmount__c}"/>
+        </apex:column>
+        
+        <!--分配比例 -->
+        <apex:column headerValue="{!$ObjectType.ContractChangePGScaling__c.fields.Allocation__c.label}">
+          <apex:inputField required="false" value="{!c.Allocation__c }"/>
+        </apex:column>
+   
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

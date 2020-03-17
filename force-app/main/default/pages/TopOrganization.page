@@ -1,0 +1,184 @@
+<apex:page title="Top项目页面" sidebar="false" showHeader="false" doctype="HTML-5.0"  standardController="Opportunity" extensions="TopOpportunityCtrl"  standardStylesheets="false" >      
+
+    <apex:includescript value="{!URLFOR($Resource.BootJS, 'BootJS/jquery-3.2.1.js')}" />
+    <apex:includeScript value="/soap/ajax/40.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/40.0/apex.js"/>          
+    <c:importvisualstrap theme="default" />      
+  
+    <script>
+    function myrefresh()
+        {
+           window.location.reload();
+        }
+    
+        (function($){
+        
+          $(function() {
+            var datascource = {!mainContent};
+        
+              $('#chart-container').orgchart({
+              'data' : datascource,
+              'nodeContent': 'title',
+              'pan': false,
+              'zoom': false,
+              'draggable': true,
+              'exportButton': true,
+              'exportFilename': 'MyOrgChart',
+              'createNode': function($node, data,$nodeDiv) {
+                var secondMenuIcon = $('<i>', {
+                  'class': 'fa fa-info-circle second-menu-icon',
+                   click: function() {
+                    $(this).siblings('.second-menu').toggle();
+                  }
+                });
+                
+                 $("#num1").on('mouseover mouseleave',function(event){
+                  if(event.type === 'mouseover'){
+                  var thirdMenu ='<div class="third-menu " id="opp">11111</div>';
+                  $node.append(thirdMenu);  
+                  }
+                  else{
+                   $("#opp").remove();
+                  }         
+                });
+                            
+                var secondMenu ='<div class="second-menu"><div class ="titleType"><h3 style="margin-top:0px">相 关 信 息</h3></div> <div class="boxstyle"><spand class="infoOne">性别：  </spand><spand class="infoTwo">'+data.gender+'</spand></div> <div class="boxstyle"><spand class="infoOne">部门：  </spand><spand class="infoTwo">'+data.department+'</spand></div><div class="boxstyle"><spand class="infoOne">电话：  </spand><spand class="infoTwo">'+data.phone+'</spand></div> <div class="boxstyle"><spand class="infoOne">邮箱：  </spand><spand class="infoTwo">'+data.email+'</spand></div> <div class="boxstyle"><spand class="infoOne">在职状态：  </spand><spand class="infoTwo">'+data.workStatus+'</spand></div><div class="boxstyle"><spand class="infoOne">拜访次数：  </spand><spand class="infoTwo">'+data.eventNum+' 次</spand></div></div>';
+             
+                $node.append(secondMenuIcon).append(secondMenu);
+                 
+              },
+              
+              'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
+                if($draggedNode.find('.content').text().indexOf('manager') > -1 && $dropZone.find('.content').text().indexOf('engineer') > -1) {
+                  return false;
+                }
+                return true;
+              }
+            })
+            .children('.orgchart').on('nodedropped.orgchart', function(event) {
+              console.log('draggedNode:' + event.draggedNode.children('.title').text()
+                + ', dragZone:' + event.dragZone.children('.title').text()
+                + ', dropZone:' + event.dropZone.children('.title').text()
+              );
+               var r1 = event.draggedNode.children('.rid').text();
+               var r2 = event.dropZone.children('.rid').text();
+               sforce.connection.sessionId = "{!$Api.Session_ID}";
+               var result = sforce.apex.execute("ContactChartHelper", "updateRecord",{id:r1,ToId:r2});
+            });
+        
+          });
+        })(jQuery);
+        </script>
+  
+<c:visualstrapblock id="strap">            
+  <head>
+        <apex:includeScript value="{!URLFOR($Resource.OrgChart, 'OrgChart/js/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.OrgChart, 'OrgChart/js/jquery.orgchart.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.OrgChart, 'OrgChart/js/html2canvas.min.js')}"/>
+        <!-- <apex:includeScript value="{!URLFOR($Resource.OrgChart, 'OrgChart/js/scripts.js')}"/> -->
+        
+        <apex:stylesheet value="{!URLFOR($Resource.OrgChart, 'OrgChart/css/font-awesome.min.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.OrgChart, 'OrgChart/css/jquery.orgchart.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.OrgChart, 'OrgChart/css/style.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.OrgChart, 'OrgChart/css/customize.css')}"/>
+        
+    </head>
+    <body>    
+      <div id="chart-container" style="height:1300px;background:#fafafa;">
+      <div style="float:left;position:absolute;margin:10px 0 0 10px;width:165px;height:140px;background-color:#fdfcff;border-radius: 5px;box-shadow: 0 0 5px 1px #999;">
+      <div style="float:left;position:absolute;font-weight: bold;height:25px;text-align:center;font-size:15px;width:165px;background-color:#e9e6eb;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+        <spand >角色权限</spand>
+      </div>
+        <div style="float:left;position:absolute;margin:30px 0 0 10px">
+               <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">A </div>
+           <span style="margin-left:15px;font-weight:blod">审批者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:50px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">C </div>
+           <span style="margin-left:15px;font-weight:blod">顾问</span>
+        </div>
+        <div style="float:left;position:absolute;margin:70px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">D </div>
+           <span style="margin-left:15px;font-weight:blod">决策者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:90px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">E </div>
+           <span style="margin-left:15px;font-weight:blod">评估者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:110px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">U </div>
+           <span style="margin-left:15px;font-weight:blod">普通用户</span>
+        </div>
+       </div>
+         
+    <div style="float:left;position:absolute;margin:170px 0 0 10px;width:165px;height:140px;background-color:#fdfcff;border-radius: 5px;box-shadow: 0 0 5px 1px #999;">
+      <div style="float:left;position:absolute;font-weight: bold;height:25px;text-align:center;font-size:15px;width:165px;background-color:#e9e6eb;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+        <spand >购买风格</spand>
+      </div>
+        <div style="float:left;position:absolute;margin:30px 0 0 10px">
+               <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">V </div>
+           <span style="margin-left:15px;font-weight:blod">价值</span>
+        </div>
+        <div style="float:left;position:absolute;margin:50px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">R </div>
+           <span style="margin-left:15px;font-weight:blod">关系</span>
+        </div>
+        <div style="float:left;position:absolute;margin:70px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">$ </div>
+           <span style="margin-left:15px;font-weight:blod">金融</span>
+        </div>
+        <div style="float:left;position:absolute;margin:90px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">P </div>
+           <span style="margin-left:15px;font-weight:blod">流程</span>
+        </div>
+        <div style="float:left;position:absolute;margin:110px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">T </div>
+           <span style="margin-left:15px;font-weight:blod">技术</span>
+        </div>
+       </div>
+       
+     <div style="float:left;position:absolute;margin:10px 0 0 200px;width:165px;height:140px;background-color:#fdfcff;border-radius: 5px;box-shadow: 0 0 5px 1px #999;">
+      <div style="float:left;position:absolute;font-weight: bold;height:25px;text-align:center;font-size:15px;width:165px;background-color:#e9e6eb;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+        <spand >成熟度</spand>
+      </div>
+        <div style="float:left;position:absolute;margin:30px 0 0 10px">
+               <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">★ </div>
+           <span style="margin-left:15px;font-weight:blod">铁杆儿</span>
+        </div>
+        <div style="float:left;position:absolute;margin:50px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">+ </div>
+           <span style="margin-left:15px;font-weight:blod">支持者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:70px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">= </div>
+           <span style="margin-left:15px;font-weight:blod">中立者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:90px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">- </div>
+           <span style="margin-left:15px;font-weight:blod">不支持者</span>
+        </div>
+        <div style="float:left;position:absolute;margin:110px 0 0 10px">
+           <div style="height:20px;width:30px;display:inline-block;font-weight: bold;">× </div>
+           <span style="margin-left:15px;font-weight:blod">反对者</span>
+        </div>
+       </div>
+       
+       <div style="float:left;position:absolute;margin:170px 0 0 200px;height:70px;width:120px;border-radius: 5px;background-color:#fdfcff;box-shadow: 0 0 5px 1px #999;">
+         <div style="margin-left:-10px;margin-top:10px;">
+           <div style="height:10px;width:20px;display:inline-block;background: #006699;border-radius:15%"></div>
+           <span style="margin-left:5px">核心圈人员</span>
+        </div>
+        <div style="margin-left:2px;margin-top:10px;">
+           <div style="height:10px;width:20px;display:inline-block;background: #009933;border-radius:15%"></div>
+           <span style="margin-left:5px">非核心圈人员</span>
+        </div>
+       </div>
+       <apex:form >
+        <apex:commandLink onclick="myrefresh()" value="一键展开"  styleclass="btn btn-success " style="float:right;margin-right:70px;margin-top:5px;color:#000"/>
+       </apex:form>
+             
+      </div>
+</body>      
+</c:visualstrapblock>
+
+</apex:page>

@@ -1,0 +1,279 @@
+<!--
+    修改：任艳新 2018-10-23
+    修改功能：返回回款主页面的链接和返回回款视图的链接
+-->
+<apex:page controller="ReturnPageController" title="回款拆分工具" sidebar="false" docType="html-5.0" showHeader="true">
+  <c:importvisualstrap theme="default" />
+ 
+  <!--引用Salesforce的JS-->
+  <script type="text/javascript">
+     var __sfdcSessionId = '{!GETSESSIONID()}';
+  </script>
+  <script src="/soap/ajax/32.0/connection.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js" type="text/javascript"></script>
+  <script>
+      function CheckContract(){           //检查输入的合同金额
+         var valueStr = '';
+         var sumValue = 0 ;
+         var tempVar = document.getElementsByClassName("inputNums");
+         var tempText = document.getElementsByClassName("inputText");
+         for(var i = 0;i < tempVar.length; i++){
+           if(tempVar[i].value == null||tempVar[i].value == 0){
+               //alert('分配金额不能为空或为0!');
+               //return false;
+           }else{
+             var tempUser = document.getElementsByClassName("inputUsers")[2*i];
+             if(tempUser.value == null){
+                alert('请输入用户!');
+                return false;
+             }else{
+             
+                sumValue = sumValue + Number(tempVar[i].value);  
+                       
+                valueStr = valueStr + tempVar[i].title + '@' + tempVar[i].value + '#' + tempText[i].value + '✈' + document.getElementById(tempUser.id+'_lkid').value + ',' ; 
+             }
+           } 
+         }
+         if(sumValue > {!WaitingAssign}){
+           alert('分配金额超出待分配金额');
+           return false;
+         }else{
+           document.getElementsByClassName('inputValues')[0].value = valueStr;
+           return true;
+         }
+      }
+      
+      function CheckBid(){    //检查输入的投标费用金额
+         var valueStr = '';
+         var sumValue = 0 ;
+         var tempVar = document.getElementsByClassName("inputNums2");
+         for(var i = 0;i < tempVar.length; i++){
+           if(tempVar[i].value == null||tempVar[i].value == 0){
+               //alert('分配金额不能为空或为0!');
+               //return false;
+           }else{
+               sumValue = sumValue + Number(tempVar[i].value);                       
+               valueStr = valueStr + tempVar[i].title + '@' + tempVar[i].value + ',';
+           } 
+         }
+         if(sumValue > {!WaitingAssign}){
+           alert('分配金额超出待分配金额');
+           return false;
+         }else{
+           document.getElementsByClassName('inputValues2')[0].value = valueStr;
+           return true;
+         }
+      }
+      
+      function CheckLY(){    
+         var valueStr = '';
+         var sumValue = 0 ;
+         var tempVar = document.getElementsByClassName("inputNums3");
+         for(var i = 0;i < tempVar.length; i++){
+           if(tempVar[i].value == null||tempVar[i].value == 0){
+               //alert('分配金额不能为空或为0!');
+               //return false;
+           }else{
+               sumValue = sumValue + Number(tempVar[i].value);                       
+               valueStr = valueStr + tempVar[i].title + '@' + tempVar[i].value + ',';
+           } 
+         }
+         if(sumValue > {!WaitingAssign}){
+           alert('分配金额超出待分配金额');
+           return false;
+         }else{
+           document.getElementsByClassName('inputValues3')[0].value = valueStr;
+           return true;
+         }
+      }
+  </script>
+  <c:visualstrapblock id="strap">
+    <apex:pageMessages ></apex:pageMessages>
+    <c:row id="row">
+      <c:column type="col-md-3" id="c1">
+        <c:panel title="回款信息" type="info" styleclass="addFontsize" id="p1">
+          <apex:dataTable value="{!LPList}" var="lp" styleClass="table table-condensed table-hover" id="d1">  
+             <apex:column headerValue="回款编号">  
+               <apex:outputLink value="/{!lp.id}">{!lp.Name}</apex:outputLink>  
+             </apex:column>
+             <apex:column headerValue="客户名称">  
+               <apex:outputLink value="/{!lp.account__c}">{!lp.accountName__c}</apex:outputLink>  
+             </apex:column>    
+           </apex:dataTable>
+           
+           <apex:dataTable value="{!LPList}" var="lp" styleClass="table table-condensed table-hover">  
+             <apex:column value="{!lp.amount__c}" headerValue="总金额" />  
+             <apex:column value="{!lp.needAssignAmount__c}" headerValue="待分配" id="WaitingAssign"/>  
+             <apex:column value="{!lp.finishedAmount__c}" headerValue="已完成"/>  
+           </apex:dataTable>
+           
+           <apex:dataTable value="{!LPList}" var="lp" styleClass="table table-condensed table-hover">  
+             <apex:column value="{!lp.date__c}" headerValue="回款日期" />  
+             <apex:column value="{!lp.createdDate__c}" headerValue="创建日期"/>  
+             <apex:column value="{!lp.finishPercent__c}" headerValue="完成情况"/>  
+           </apex:dataTable> 
+           
+           <center>  
+               <c:progressbar type="primary" striped="false" value="{!LPRecordPercent}" animated="true" />
+               <p>完成情况</p> 
+           </center>
+        </c:panel>
+        <div style="margin:8px"><a href="/{!$CurrentPage.parameters.id}" target="_self">返回记录</a></div>
+        <div style="margin:8px"><a href="/a0i/o" target="_self">返回回款管理主页面</a></div>
+        <div style="margin:8px"><a href="/a0i?fcf=00B280000099BUZ" target="_self">返回回款管理视图页面</a></div>
+  
+      </c:column>
+      
+      <c:column type="col-md-9" id="c2"><apex:form id="form1">
+        <ul class="nav nav-pills nav-tabs">
+        
+           <li role="presentation" class="{!activePanel1}" style="margin-left: 10px; background-color:#eeeeee">
+              <apex:commandLink value="合同回款" action="{!clickContract}"/>
+           </li>
+           <li role="presentation" class="{!activePanel2}" style="background-color:#eeeeee">
+              <apex:commandLink value="投标保证金清分" action="{!clickBidCost}"/>
+           </li>
+           <li role="presentation" class="{!activePanel3}" style="background-color:#eeeeee">
+              <apex:commandLink value="履约保证金清分" action="{!clickLYCost}"/>
+           </li>
+           <c:column type="col-md-12" rendered="{!ContractPanel}" id="c21">
+              <c:panel title="该客户待匹配合同回款" type="warning" styleclass="addFontsize" id="p2">
+              <apex:dataTable value="{!CCList}" var="cc" styleClass="table table-condensed table-hover" id="d2">  
+                <apex:column headerValue="合同号">
+                  <apex:outputLink value="/{!cc.id}">{!cc.Name}</apex:outputLink>    
+                </apex:column>  
+                <apex:column headerValue="客户名称">
+                  <apex:outputLink value="/{!cc.account__c}">{!cc.accountName__c}</apex:outputLink>
+                </apex:column>  
+                <apex:column value="{!cc.oldContractNumber__c}" headerValue="原合同号"/>
+                <apex:column value="{!cc.amount__c}" headerValue="合同金额"/>
+                <apex:column value="{!cc.noReturnContractAmount__c}" headerValue="待回金额"/>
+                <apex:column headerValue="履约执行人">
+                   <apex:inputField value="{!cc.deliveryPerson__c}" styleClass="inputUsers" id="inputUsers"/>
+                </apex:column> 
+                <apex:column headerValue="本次回款">
+                   <input type="number" value="{!EachValue}" class="inputNums" title="{!cc.id}" step="0.01" />
+                </apex:column>
+                 <apex:column headerValue="备注">
+                   <input type="text" value="{!EachValue2}" class="inputText" title="{!cc.id}" />
+                </apex:column>
+                
+             </apex:dataTable>
+              <div style="display:none"><apex:input type="text" value="{!CValues1}" styleClass="inputValues" /></div>
+              <ul class="pager">
+                <li class="previous {!OffsetStatusPrevious}"><apex:commandLink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}"><span aria-hidden="true">&larr;</span> Previous</apex:commandLink></li>
+                <li class="next  {!OffsetStatusNext}"><apex:commandLink action="{!next}" onclick="return {!OffsetStatusNextCom}">Next <span aria-hidden="true">&rarr;</span></apex:commandLink></li>
+              </ul>
+                            
+              <div style ="text-align:right;">
+                <apex:commandButton value="提交" rendered="{!flagButton1}" onclick="return CheckContract();" action="{!commitContractRecord}" styleClass="btn btn-large btn-warning" style="width:10%;"/>
+              </div>
+            
+            
+            <c:alert rendered="{!CCList.empty}" type="warning" style="text-align:center">  
+              <c:glyph icon="remove-sign"/> 没有推荐的待匹配记录显示 
+            </c:alert>
+          </c:panel>
+        </c:column>
+        
+        <c:column type="col-md-12" rendered="{!bidCostPanel}">
+          <c:panel title="该客户待清分投标保证金" type="warning" styleclass="addFontsize">
+              <apex:dataTable value="{!BCList}" var="bc" styleClass="table table-condensed table-hover">  
+                <apex:column headerValue="保证金编号">
+                  <apex:outputLink value="/{!bc.id}">{!bc.Name}</apex:outputLink>    
+                </apex:column>  
+                <apex:column headerValue="客户名称">
+                  <apex:outputLink value="/{!bc.accountID__c}">{!bc.accountName__c}</apex:outputLink>
+                </apex:column>  
+                <apex:column headerValue="业务机会名称">
+                  <apex:outputLink value="/{!bc.opportunity__c}">{!bc.opportunity__r.Name}</apex:outputLink>
+                </apex:column>
+
+                <apex:column value="{!bc.amount__c}" headerValue="金额"/> 
+                <apex:column value="{!bc.surplus__c}" headerValue="未回金额"/> 
+                <apex:column headerValue="本次回款">
+                   <input type="number" value="{!EachValue}" class="inputNums2" title="{!bc.id}" step="0.01" />
+                </apex:column>
+              </apex:dataTable>
+              <div style="display:none"><apex:input type="text" value="{!CValues2}" styleClass="inputValues2" /></div>
+              <ul class="pager">
+                <li class="previous {!OffsetStatusPrevious}"><apex:commandLink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}"><span aria-hidden="true">&larr;</span> Previous</apex:commandLink></li>
+                <li class="next  {!OffsetStatusNext}"><apex:commandLink action="{!next}" onclick="return {!OffsetStatusNextCom}">Next <span aria-hidden="true">&rarr;</span></apex:commandLink></li>
+              </ul>        
+              <div style ="text-align:right;">
+                <apex:commandButton value="提交" rendered="{!flagButton2}" onclick="return CheckBid();" action="{!commitBidRecord}" styleClass="btn btn-large btn-warning" style="width:10%;"/>
+              </div>
+            <c:alert rendered="{!BCList.empty}" type="warning" style="text-align:center">  
+              <c:glyph icon="remove-sign"/> 没有推荐的待匹配记录显示 
+            </c:alert>
+          </c:panel>
+        </c:column>
+        
+        <c:column type="col-md-12" rendered="{!LYCostPanel}">
+          <c:panel title="该客户待清分履约保证金" type="warning" styleclass="addFontsize">
+              <apex:dataTable value="{!LYList}" var="ly" styleClass="table table-condensed table-hover">  
+                <apex:column headerValue="保证金编号">
+                  <apex:outputLink value="/{!ly.id}">{!ly.Name}</apex:outputLink>    
+                </apex:column>  
+                <apex:column headerValue="客户名称">
+                  <apex:outputLink value="/{!ly.accountID__c}">{!ly.accountName__c}</apex:outputLink>
+                </apex:column>  
+                <apex:column headerValue="合同号">
+                  <apex:outputLink value="/{!ly.contract__c}">{!ly.contract__r.Name}</apex:outputLink>
+                </apex:column>
+
+                <apex:column value="{!ly.amount__c}" headerValue="金额"/> 
+                <apex:column value="{!ly.surplus__c}" headerValue="未回金额"/> 
+                <apex:column headerValue="本次回款">
+                   <input type="number" value="{!EachValue}" class="inputNums3" title="{!ly.id}" step="0.01" />
+                </apex:column>
+              </apex:dataTable>
+              <div style="display:none"><apex:input type="text" value="{!CValues3}" styleClass="inputValues3" /></div>
+              <ul class="pager">
+                <li class="previous {!OffsetStatusPrevious}"><apex:commandLink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}"><span aria-hidden="true">&larr;</span> Previous</apex:commandLink></li>
+                <li class="next  {!OffsetStatusNext}"><apex:commandLink action="{!next}" onclick="return {!OffsetStatusNextCom}">Next <span aria-hidden="true">&rarr;</span></apex:commandLink></li>
+              </ul>        
+              <div style ="text-align:right;">
+                <apex:commandButton value="提交" rendered="{!flagButton3}" onclick="return CheckLY();" action="{!commitLYRecord}" styleClass="btn btn-large btn-warning" style="width:10%;"/>
+              </div>
+            <c:alert rendered="{!LYList.empty}" type="warning" style="text-align:center">  
+              <c:glyph icon="remove-sign"/> 没有推荐的待匹配记录显示 
+            </c:alert>
+          </c:panel>
+        </c:column>
+        
+        
+        <c:column type="col-md-12">
+          <c:panel title="已完成匹配回款项" type="success" styleclass="addFontsize">
+            <apex:dataTable value="{!RIList}" var="ri" styleClass="table table-condensed table-hover">
+              <apex:column headerValue="回款项编号">  
+                <apex:outputLink value="/{!ri.id}">{!ri.Name}</apex:outputLink> 
+              </apex:column>  
+              <apex:column value="{!ri.recordTypeName__c}" headerValue="类型"/> 
+            <!--  <apex:column value="{!ri.bidCost__c}" headerValue="保证金编号"/> -->
+              <apex:column headerValue="合同号"> 
+                <apex:outputLink value="/{!ri.contracts__c}">{!ri.contractName__c}</apex:outputLink>
+              </apex:column> 
+              <apex:column headerValue="投标保证金编号"> 
+                <apex:outputLink value="/{!ri.bidCost__c}">{!ri.bidCost__r.Name}</apex:outputLink>
+              </apex:column> 
+              <apex:column headerValue="履约保证金编号"> 
+                <apex:outputLink value="/{!ri.LYBaozhengjing__c}">{!ri.LYBaozhengjing__r.Name}</apex:outputLink>
+              </apex:column> 
+              <apex:column value="{!ri.returnDate__c}" headerValue="回款日期"/> 
+              <apex:column value="{!ri.amount__c}" headerValue="金额"/>
+            </apex:dataTable>
+            <c:alert rendered="{!RIList.empty}" type="success" style="text-align:center">  
+              <c:glyph icon="remove-sign"/> 没有完成项 
+            </c:alert>
+          </c:panel>
+        </c:column>
+        
+       </ul></apex:form>
+        
+      </c:column>
+    </c:row>
+    
+  </c:visualstrapblock>
+  
+</apex:page>

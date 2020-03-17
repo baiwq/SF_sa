@@ -1,0 +1,24 @@
+<apex:page standardController="commisionUser__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="v" id="table">
+        <apex:column headerValue="{!$ObjectType.commisionUser__c.fields.Name.label}">
+          <apex:outputField value="{!v.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.commisionUser__c.fields.member__c.label}">
+          <apex:outputField value="{!v.member__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.commisionUser__c.fields.department__c.label}">
+          <apex:outputField value="{!v.department__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.commisionUser__c.fields.performanceProportion__c.label}">
+          <apex:inputField required="true" value="{!v.performanceProportion__c}"/>
+        </apex:column>        
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

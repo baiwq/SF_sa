@@ -1,0 +1,497 @@
+<apex:page title="回款跟踪填报页面" sidebar="false" doctype="HTML-5.0" controller="returnTrackingController" standardstylesheets="false">    
+    <script type="text/javascript">
+        var __sfdcSessionId = '{!GETSESSIONID()}';
+    </script>
+    <apex:includescript value="{!URLFOR($Resource.BootJS, 'BootJS/jquery-3.2.1.js')}" />
+    <script src="/soap/ajax/37.0/connection.js" type="text/javascript"></script>
+    <script src="/soap/ajax/37.0/apex.js" type="text/javascript"></script>
+    <c:importvisualstrap theme="default" /> 
+    <apex:stylesheet value="{!URLFOR($Resource.docs, 'docs.css')}" /> 
+    <script>  
+        $('#myTabs a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+        })                  
+    </script>
+    <script>       
+        function getAllMoney(ptId){
+            
+            var money = document.getElementsByClassName(ptId)[0];
+            var moneyValue = money.firstChild.firstChild.textContent;       
+            moneyValue = moneyValue.substring(1);   
+            document.getElementsByClassName(ptId)[1].parentNode.firstChild.value = moneyValue;                
+        }    
+    </script>
+    <script>
+        function showcase(){
+          var Q1 = "select monthFifthAmount__c,monthFinallyAmount__c,percentage__c from monthStatistics__c where sales__c ='" + "{!CurrentUserId}" + "' and year__c =" + "{!LastToYear}" + " and month__c =" + "{!LastToMonth}";
+          if(sforce.connection.query(Q1).size == 0){
+              document.getElementById('last1').innerText = 0;
+              document.getElementById('last2').innerText = 0;
+              document.getElementById('last3').innerText = 0;
+          }else{
+              var records1 = sforce.connection.query(Q1).getArray('records');                  
+              document.getElementById('last1').innerText = records1[0].monthFifthAmount__c; 
+              document.getElementById('last2').innerText = records1[0].monthFinallyAmount__c;  
+              document.getElementById('last3').innerText = records1[0].percentage__c;        
+          }    
+          var myDate = new Date();          
+          if(myDate.getDate()<6){   
+              var Q2 = "select id,inputAmount__c from paymentTerm__c where contract__r.deliveryPerson__c ='" + "{!CurrentUserId}" + "' and yearNumber__c =" + "{!CurrentYear}" + " and monthNumber__c =" + "{!CurrentMonth}" + "  and inputAmount__c != null";
+              var records2 = sforce.connection.query(Q2).getArray('records');             
+              var v2 = 0;
+              for (var i=0; i< records2.length; i++) { 
+                 v2 = v2 + parseFloat(records2[i].inputAmount__c);
+              }
+              document.getElementById('current1').innerText = v2;
+              
+          }else{
+              var Q21 = "select monthFifthAmount__c from monthStatistics__c where sales__c ='" + "{!CurrentUserId}" + "' and year__c =" + "{!CurrentYear}" + " and month__c =" + "{!CurrentMonth}";
+              var records2 = sforce.connection.query(Q21).getArray('records');   
+              if(sforce.connection.query(Q21).size == 0){
+                  document.getElementById('current1').innerText = 0;
+              }else{       
+                  document.getElementById('current1').innerText = records2[0].monthFifthAmount__c;
+              }
+          }
+          
+          
+          var Q3 = "select id,inputAmount__c from paymentTerm__c where contract__r.deliveryPerson__c ='" + "{!CurrentUserId}" + "' and yearNumber__c =" + "{!NextToYear}" + " and monthNumber__c =" + "{!NextToMonth}" + "  and inputAmount__c != null";
+          var records3 = sforce.connection.query(Q3).getArray('records');
+          var v3 = 0;
+          for (var j=0; j< records3.length; j++) { 
+             v3 = v3 + parseFloat(records3[j].inputAmount__c);
+          }
+          document.getElementById('next1').innerText = v3;
+          
+          $('#newCase').modal('show');
+        }
+    </script>
+    
+<head>
+<div style="color:red;float:right"><p style="display:{!textShow}">按页提交。应收账款风险等级R5不需履约执行人填写。此页面仅为录入界面，不建议作为信息获取界面，所有信息获取使用报表导出。</p></div>
+</head>   
+<apex:form id="ff">    
+    <apex:actionFunction action="{!clickPanel1}" name="clickPanel1" />
+    <apex:actionFunction action="{!clickPanel2}" name="clickPanel2" />
+    <apex:actionFunction action="{!clickPanel3}" name="clickPanel3" /> 
+    <apex:actionFunction action="{!clickPanel4}" name="clickPanel4" />   
+    <apex:actionFunction action="{!clickPanel5}" name="clickPanel5" /> 
+    <apex:actionFunction action="{!clickPanel6}" name="clickPanel6" />       
+    <c:visualstrapblock id="strap">       
+    <c:row id="row">  
+     
+    <c:modal id="newCase" title="统计信息">
+    
+    <div class="panel panel-default fontForCaseGrey" id="lastMonth">
+    <div class="panel-heading">{!LastDateString}统计</div>
+        <table class="table"> 
+            <tr>
+            <td>填报金额：    <span id='last1'></span></td>
+            </tr>
+            <tr class="alt">
+            <td>完成金额：    <span id='last2'></span></td>
+            </tr>
+            <tr class="alt">
+            <td>完成比例：   <span id='last3'></span>%  </td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-primary" id="thisMonth">
+    <div class="panel-heading">{!CurrentDateString}统计</div>
+        <table class="table">
+            <tr>
+                <td>当前已填报金额： <span id='current1'></span></td>
+            </tr>
+            <tr>
+                <td><span id='aba'></span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-default" id="nextMonth">
+    <div class="panel-heading">{!NextDateString}统计</div>
+        <table class="table">
+            <tr>
+                <td>当前已填报金额： <span id='next1'></span></td>
+            </tr>       
+        </table>
+    </div>
+        
+    <apex:outputPanel >
+        <script>$('#newCase').modal('hide');</script>
+    </apex:outputPanel>
+           
+    </c:modal>
+
+      
+<c:column type="col-md-12"> 
+
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs"> 
+<ul id="myTabs" class="nav nav-tabs" role="tablist"> 
+    <li role="presentation" class="{!activePanel1}"><a href="#s1" onclick="clickPanel1()" role="tab" id="s1-tab" data-toggle="tab" aria-controls="s1" aria-expanded="false">待填报回款计划</a></li> 
+    <li role="presentation" class="{!activePanel2}"><a href="#s2" onclick="clickPanel2()" role="tab" id="s2-tab" data-toggle="tab" aria-controls="s2" aria-expanded="false">已填报回款计划</a></li>  
+    <li role="presentation" class="{!activePanel3}"><a href="#s3" onclick="clickPanel3()" role="tab" id="s3-tab" data-toggle="tab" aria-controls="s3" aria-expanded="false">待填报定向合同回款计划 <span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span> </a></li> 
+    <li role="presentation" class="{!activePanel4}"><a href="#s4" onclick="clickPanel4()" role="tab" id="s4-tab" data-toggle="tab" aria-controls="s4" aria-expanded="false">已填报定向合同回款计划 <span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></a></li> 
+    <li role="presentation" class="{!activePanel5}" style="display:{!salesStr}"><a href="#s5" onclick="clickPanel5()" role="tab" id="s5-tab" data-toggle="tab" aria-controls="s5" aria-expanded="false">回款追踪销售页面</a></li> 
+    <li role="presentation" class="{!activePanel6}" style="display:{!acceptStr}"><a href="#s6" onclick="clickPanel6()" role="tab" id="s6-tab" data-toggle="tab" aria-controls="s6" aria-expanded="false">回款追踪应收管理员页面</a></li> 
+</ul> 
+
+<div id="myTabContent" class="tab-content"> 
+  
+   <div style="text-align:left;"> 
+        <a href="" data-toggle="collapse" data-target="#demo" onclick="showcase()">查看统计信息</a>
+   </div>
+   <div style="text-align:right;">
+            <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-bottom:10px"></span>{!$User.FirstName} {!$User.LastName} &nbsp;您好，当前页面记录总数：{!tempSize}
+   </div>
+
+  <div class="row"> 
+        <div class="col-lg-12"> 
+        <div class="input-group" > 
+            <span class="input-group-addon" style="font-weight:bold"  id="sizing-addon1">请输入关键字</span> 
+            <apex:input type="text" value="{!str}" style="height:50px"  Styleclass="form-control"  html-placeholder="{!textStr}" />            
+            <span class="input-group-btn"> <apex:commandButton value="查询GO!" action="{!Search}" Styleclass="btn btn-default" style="background: #CCCCCC;height:50px"></apex:commandButton></span> 
+        </div>   
+        </div>
+        </div>  
+        <div style="text-align:right;margin-top:10px"> 
+            <a href="/servlet/servlet.FileDownload?file=0150I000006O1Q9" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>不知道怎么填？</a> 
+                                             
+        </div> 
+        <div style="margin-top:30px"></div> 
+        
+<!-- 第一个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel1}" id="s1" aria-labelledby="s1-tab" >  
+    <c:column id="p1" type="default" > 
+        <apex:datatable value="{!Panel1List}" var="nl" styleclass="table table-condensed table-hover fontArrow" id="d1"> 
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!nl.contract__r.id}">
+                    {!nl.contract__r.Name}
+                </apex:outputlink>  
+                <apex:outputText rendered="{!nl.directionalTask__c}"><span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></apex:outputText> 
+            </apex:column>         
+            <apex:column value="{!nl.contract__r.account__c}" headervalue="{!$ObjectType.Contract__c.fields.account__c.label}"  />  
+            <apex:column value="{!nl.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />  
+            <apex:column value="{!nl.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}"  />  
+            <apex:column value="{!nl.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!nl.percentage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}" />          
+            <apex:column value="{!nl.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" styleClass="a{!nl.id}"/>           
+            <apex:column value="{!nl.stageDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageDate__c.label}" /> 
+            <apex:column value="{!nl.stageEndsDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageEndsDate__c.label}" /> 
+            <apex:column value="{!nl.directionalTask__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.directionalTask__c.label}" />   
+            <apex:column value="{!nl.returnStage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" />                                        
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}">  
+                <apex:inputField value="{!nl.inputDate__c}" />           
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}">  
+                <apex:inputField value="{!nl.inputAmount__c}" style="width:35%"/>      
+                <input type="button" name="Button" value="剩余全部" class="btn btn-info btn-xs a{!nl.id}" onclick= "getAllMoney('a{!nl.id}')" />                                                        
+            </apex:column>                
+        </apex:datatable>  
+            <ul class="pager"> 
+                <li class="previous {!OffsetStatusPrevious}">
+                    <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                        <span aria-hidden="true">←</span> 
+                        上一页
+                    </apex:commandlink>
+                </li> 
+                <li class="next  {!OffsetStatusNext}">
+                    <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                         下一页 
+                        <span aria-hidden="true">→</span>
+                    </apex:commandlink>
+                </li> 
+            </ul> 
+        <div style="text-align:right;"> 
+             <apex:commandButton action="{!SavePanel1}" value="提交" styleclass="btn btn-large btn-primary" style="width:10%;" />
+        </div> 
+        
+    </c:column> 
+
+</div> 
+
+
+<!-- 第二个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel2}" id="s2" aria-labelledby="s2-tab" >     
+    <c:column id="p2" type="default">
+        
+        <div style="margin-top:20px"></div> 
+        <apex:datatable value="{!Panel2List}" var="nl" styleclass="table table-condensed table-hover fontArrow" id="d2" > 
+            <apex:column headervalue="操作">                                
+                <apex:commandbutton value="删除" action="{!deletePanel2}" styleclass="btn btn-danger btn-xs" rerender="ff">
+                    <apex:param name="cParam" value="{!nl.id}" assignTo="{!Panel2RecordId}"/>
+                </apex:commandbutton>          
+            </apex:column> 
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!nl.contract__r.id}">
+                    {!nl.contract__r.Name}
+                </apex:outputlink>  
+                <apex:outputText rendered="{!nl.directionalTask__c}"><span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></apex:outputText> 
+            </apex:column>     
+            <apex:column value="{!nl.contract__r.account__c}" headervalue="{!$ObjectType.Contract__c.fields.account__c.label}"  />  
+            <apex:column value="{!nl.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />  
+            <apex:column value="{!nl.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}"  />  
+            <apex:column value="{!nl.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!nl.percentage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}" /> 
+            <apex:column value="{!nl.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" />           
+            <apex:column value="{!nl.stageDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageDate__c.label}" /> 
+            <apex:column value="{!nl.stageEndsDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageEndsDate__c.label}" /> 
+            <apex:column value="{!nl.directionalTask__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.directionalTask__c.label}" />   
+            <apex:column value="{!nl.returnStage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" /> 
+             
+            <apex:column value="{!nl.inputDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}" />   
+            <apex:column value="{!nl.inputAmount__c}"  rendered="{!if(nl.overMark__c,true,false)}" style="background:#FFFF66" />  
+            <apex:column value="{!nl.inputAmount__c}"  rendered="{!if(!nl.overMark__c,true,false)}" />
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}" />
+        </apex:datatable> 
+            
+        <ul class="pager"> 
+            <li class="previous {!OffsetStatusPrevious}">
+                <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                <span aria-hidden="true">←</span> 
+                上一页
+                </apex:commandlink>
+            </li> 
+            <li class="next  {!OffsetStatusNext}">
+                <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                下一页 
+                <span aria-hidden="true">→</span>
+                </apex:commandlink>
+            </li> 
+        </ul> 
+    </c:column> 
+ 
+</div> 
+
+
+<!-- 第三个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel3}" id="s3" aria-labelledby="s3-tab" >  
+    <c:column id="p3" type="default"> 
+        <div style="margin-top:30px"></div> 
+        <apex:datatable value="{!Panel3List}" var="n3" styleclass="table table-condensed table-hover fontArrow" id="d3"> 
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!n3.contract__r.id}">
+                    {!n3.contract__r.Name}
+                </apex:outputlink>  
+                <apex:outputText rendered="{!n3.directionalTask__c}"><span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></apex:outputText> 
+            </apex:column>
+            <apex:column value="{!n3.contract__r.account__c}" headervalue="{!$ObjectType.Contract__c.fields.account__c.label}"  />  
+            <apex:column value="{!n3.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />  
+            <apex:column value="{!n3.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}"  />  
+            <apex:column value="{!n3.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!n3.percentage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}" /> 
+            <apex:column value="{!n3.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" styleClass="b{!n3.id}" />           
+            <apex:column value="{!n3.stageDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageDate__c.label}" /> 
+            <apex:column value="{!n3.stageEndsDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageEndsDate__c.label}" /> 
+            <apex:column value="{!n3.directionalTask__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.directionalTask__c.label}" />   
+            <apex:column value="{!n3.returnStage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" /> 
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}">
+                <apex:inputField value="{!n3.inputDate__c}" />           
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}">  
+                <apex:inputField value="{!n3.inputAmount__c}" style="width:35%"/>      
+                <input type="button" name="Button" value="剩余全部" class="btn btn-info btn-xs b{!n3.id}" onclick= "getAllMoney('b{!n3.id}')" />                                                        
+            </apex:column>         
+        </apex:datatable> 
+
+            <ul class="pager"> 
+                <li class="previous {!OffsetStatusPrevious}">
+                    <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                        <span aria-hidden="true">←</span> 
+                        上一页
+                    </apex:commandlink>
+                </li> 
+                <li class="next  {!OffsetStatusNext}">
+                    <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                         下一页 
+                        <span aria-hidden="true">→</span>
+                    </apex:commandlink>
+                </li> 
+            </ul> 
+         <div style="text-align:right;"> 
+             <apex:commandButton action="{!SavePanel2}" value="提交" styleclass="btn btn-large btn-primary" style="width:10%;" />
+         </div> 
+         
+    </c:column> 
+   
+</div> 
+
+<!-- 第四个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel4}" id="s4" aria-labelledby="s4-tab" > 
+    <c:column id="p4" type="default">
+        <div style="margin-top:20px"></div> 
+        <apex:datatable value="{!Panel4List}" var="nl" styleclass="table table-condensed table-hover fontArrow" id="d4"> 
+            <apex:column headervalue="操作">                                
+                <apex:commandbutton value="删除" action="{!deletePanel4}" styleclass="btn btn-danger btn-xs" rerender="ff">
+                    <apex:param name="cParam" value="{!nl.id}" assignTo="{!Panel4RecordId}"/>
+                </apex:commandbutton>            
+            </apex:column> 
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!nl.contract__r.id}">
+                    {!nl.contract__r.Name}
+                </apex:outputlink> 
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span> 
+            </apex:column>          
+            <apex:column value="{!nl.contract__r.account__c}" headervalue="{!$ObjectType.Contract__c.fields.account__c.label}"  />  
+            <apex:column value="{!nl.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />  
+            <apex:column value="{!nl.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}"  />  
+            <apex:column value="{!nl.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!nl.percentage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}" /> 
+            <apex:column value="{!nl.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" />           
+            <apex:column value="{!nl.stageDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageDate__c.label}" /> 
+            <apex:column value="{!nl.directionalTask__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.directionalTask__c.label}" />   
+            <apex:column value="{!nl.returnStage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" />  
+                                     
+            <apex:column value="{!nl.inputDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}" /> 
+            <apex:column value="{!nl.stageEndsDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageEndsDate__c.label}" /> 
+            <apex:column value="{!nl.inputAmount__c}"  rendered="{!if(nl.overMark__c,true,false)}" style="background:#FFFF66" />  
+            <apex:column value="{!nl.inputAmount__c}"  rendered="{!if(!nl.overMark__c,true,false)}" />
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}" />
+        </apex:datatable>  
+            
+        <ul class="pager">  
+            <li class="previous {!OffsetStatusPrevious}">
+                <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                <span aria-hidden="true">←</span> 
+                上一页
+                </apex:commandlink>
+            </li> 
+            <li class="next  {!OffsetStatusNext}">
+                <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                下一页 
+                <span aria-hidden="true">→</span>
+                </apex:commandlink>
+            </li> 
+        </ul> 
+    </c:column> 
+ 
+</div> 
+
+
+<!-- 第五个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel5}" id="s5" aria-labelledby="s5-tab"> 
+<div class = "bline">
+    <c:column id="p5" type="default">
+        <apex:datatable value="{!Panel5List}" var="nl" styleclass="table table-condensed table-hover fontArrow" id="d5">            
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!nl.contract__r.id}">
+                    {!nl.contract__r.Name}
+                </apex:outputlink>  
+                <apex:outputText rendered="{!nl.directionalTask__c}"><span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></apex:outputText> 
+            </apex:column> 
+            <apex:column value="{!nl.contract__r.accountName__c}" headervalue="{!$ObjectType.Contract__c.fields.accountName__c.label}"  />      
+            <apex:column value="{!nl.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />  
+            <apex:column value="{!nl.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}" /> 
+            <apex:column value="{!nl.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!nl.percentage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.percentage__c.label}" /> 
+            <apex:column value="{!nl.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" /> 
+            <apex:column value="{!nl.stageDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stageDate__c.label}" /> 
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.description__c.label}">
+                <apex:inputField value="{!nl.description__c}" />           
+            </apex:column> 
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" >
+                <apex:inputField value="{!nl.returnStage__c}" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresDate__c.label}" >
+                <apex:inputField value="{!nl.paymentProceduresDate__c}" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresAmount__c.label}" >
+                <apex:inputField value="{!nl.paymentProceduresAmount__c}" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresType__c .label}" >
+                <apex:inputField value="{!nl.paymentProceduresType__c }" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}" value="{!nl.inputDate__c}" />
+              
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}" value="{!nl.inputAmount__c}" />
+                        
+            
+        </apex:datatable> 
+            
+        <ul class="pager"> 
+            <li class="previous {!OffsetStatusPrevious}">
+                <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                <span aria-hidden="true">←</span> 
+                上一页
+                </apex:commandlink>
+            </li> 
+            <li class="next  {!OffsetStatusNext}">
+                <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                下一页 
+                <span aria-hidden="true">→</span>
+                </apex:commandlink>
+            </li> 
+        </ul> 
+        <div style="text-align:right;"> 
+            <apex:commandButton action="{!SavePanel5}" value="提交" styleclass="btn btn-large btn-primary" style="width:10%;" />
+        </div>    
+    </c:column> 
+ 
+</div> 
+</div> 
+
+<!-- 第六个panel -->
+<div role="tabpanel" class="tab-pane fade in {!activePanel6}" id="s6" aria-labelledby="s6-tab">
+<div class = "bline">
+    <c:column id="p6" type="default">
+                              
+        <apex:datatable value="{!Panel6List}" var="nl" styleclass="table table-condensed table-hover fontArrow" id="d6">            
+            <apex:column headervalue="{!$ObjectType.Contract__c.fields.Name.label}"> 
+                <apex:outputlink value="/{!nl.contract__r.id}">
+                    {!nl.contract__r.Name}
+                </apex:outputlink>  
+                <apex:outputText rendered="{!nl.directionalTask__c}"><span class="glyphicon glyphicon-flag" aria-hidden="true" style="color:red"></span></apex:outputText> 
+            </apex:column> 
+            <apex:column value="{!nl.contract__r.contractName__c}" headervalue="{!$ObjectType.Contract__c.fields.contractName__c.label}"  />                
+            <apex:column value="{!nl.contract__r.receiveRiskLevel__c}" headervalue="{!$ObjectType.Contract__c.fields.receiveRiskLevel__c.label}" /> 
+            <apex:column value="{!nl.stage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.stage__c.label}" /> 
+            <apex:column value="{!nl.surplusMoney__c }" headervalue="当前{!$ObjectType.paymentTerm__c.fields.surplusMoney__c.label}" />
+            <apex:column value="{!nl.inputDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.inputDate__c.label}" />
+            <apex:column value="{!nl.inputAmount__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.inputAmount__c.label}" />
+            <apex:column value="{!nl.description__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.description__c.label}" /> 
+            <apex:column value="{!nl.returnStage__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.returnStage__c.label}" /> 
+            <apex:column value="{!nl.paymentProceduresDate__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.paymentProceduresDate__c.label}" /> 
+            <apex:column value="{!nl.reason__c}" headervalue="{!$ObjectType.paymentTerm__c.fields.reason__c.label}" />           
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.solution__c.label}">
+                <apex:inputField value="{!nl.solution__c}" />           
+            </apex:column>
+
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.updateRecord__c.label}" >
+                <apex:inputField value="{!nl.updateRecord__c}" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.updateReformDate__c.label}" >
+                <apex:inputField value="{!nl.updateReformDate__c}" /> 
+            </apex:column>
+            <apex:column headervalue="{!$ObjectType.paymentTerm__c.fields.unNormalReturnAdjustDate__c .label}" >
+                <apex:inputField value="{!nl.unNormalReturnAdjustDate__c }" /> 
+            </apex:column>
+        </apex:datatable>
+        <ul class="pager"> 
+            <li class="previous {!OffsetStatusPrevious}">
+                <apex:commandlink action="{!previous}" onclick="return {!OffsetStatusPreviousCom}">
+                <span aria-hidden="true">←</span> 
+                上一页
+                </apex:commandlink>
+            </li> 
+            <li class="next  {!OffsetStatusNext}">
+                <apex:commandlink action="{!next}" onclick="return {!OffsetStatusNextCom}">
+                下一页 
+                <span aria-hidden="true">→</span>
+                </apex:commandlink>
+            </li> 
+        </ul>   
+        <div style="text-align:right;"> 
+            <apex:commandButton action="{!SavePanel6}" value="提交" styleclass="btn btn-large btn-primary" style="width:10%;" />
+        </div>         
+    </c:column> 
+ 
+</div>
+</div>
+
+</div> 
+</div> 
+    </c:column> 
+    </c:row> 
+    </c:visualstrapblock> 
+</apex:form>
+</apex:page>

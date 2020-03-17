@@ -1,0 +1,383 @@
+global class GetUserAppHistory {
+  global class Approval{
+        
+        webservice String ObjectName;
+        webservice String ObjectType;
+        webservice String SubmitUser;
+        webservice String ApprovalUser;
+       	webservice String SubmitUserid;
+        webservice String ApprovalUserid;
+        webservice String Submittime;
+        webservice String ApprovalStatus;
+        webservice String ApprovalUrl;
+        webservice String SubmitUserEamil;
+        webservice String SubmitStaffID;
+        webservice String ApprovalUserEamil;
+        webservice String ApprovalstaffID;
+    }
+   
+    global class Response{
+        webservice String flag;
+        webservice String message;
+        webservice String ApprovalLength;
+    }
+    
+    public static String getValue(String Status){
+
+            if(Status =='Approved'){
+                return '已批准';
+            }
+            else if(Status =='Fault'){
+                return '故障';
+            }
+            else if(Status =='Hold'){
+                return '暂停';
+            }
+            else if(Status =='NoResponse'){
+                return '无响应';
+            }
+            else if(Status =='Pending'){
+                return '待处理';
+            }
+            else if(Status =='Reassigned'){
+                return '已重新分配';
+            }
+            else if(Status =='Rejected'){
+                return '已拒绝';
+            }
+            else if(Status =='Recalled'){
+                return '已调回';
+            }
+            else if(Status =='Submitted'){
+                return '已提交';
+            }else{
+                return '异常';
+           }
+
+        
+    }
+
+    
+    
+    public static String getType(String stype){
+       
+          if( stype == 'tbbaozhengjin__c'){
+                return '投标保证金/保函';
+            }
+            else if( stype == 'shipping__c'){
+                return '发货申请';
+            }
+            else if( stype == 'scheduling__c'){
+                return '合同排产';
+            }
+            else if( stype == 'salesLeads__c'){
+                return '销售线索';
+            }
+            else if( stype == 'replenishment__c'){
+                return '过质保期合同申请流程';
+            }
+            else if( stype == 'relationshipPlan__c'){
+                return '客户关系申请';
+            }
+            else if( stype == 'receipt__c'){
+                return '收据';
+            }
+            else if( stype == 'quatation__c'){
+                return '报价管理';
+            }
+            else if( stype == 'notCommonOutsourcing__c'){
+                return '非常用外购';
+            }
+            else if( stype == 'monthlyPlan__c'){
+                return '月/季度计划';
+            }
+            else if( stype == 'majorProjects__c'){
+                return '重点项目申请';
+            }
+            else if( stype == 'invoice__c'){
+                return '开票';
+            }
+            else if( stype == 'guaranteeLetter__c'){
+                return '履约保证金/保函';
+            }
+            else if( stype == 'expenseOfBidApply__c'){
+                return '标书费申请';
+            }
+            else if( stype == 'contractreview__c'){
+                return '合同评审';
+            }
+            else if( stype == 'contractchange__c'){
+                return '合同变更';
+            }
+            else if( stype == 'contractFee__c'){
+                return '费用备案';
+            }
+            else if( stype == 'commisionSplit__c'){
+                return '业绩分配比例申请';
+            }
+            else if( stype == 'competitor__c'){
+                return '竞争对手审批';
+            }
+            else if( stype == 'bidReview__c'){
+                return '投标评审';
+            }
+            else if( stype == 'bidCost__c'){
+                return '中标服务费申请';
+            }
+            else if( stype == 'TopProjectApp__c'){
+                return '战略类TOP项目申请';
+            }
+            else if( stype == 'ServiceCharge__c'){
+                return '服务费用审批';
+            }
+            else if( stype == 'Plan__c'){
+                return '计划';
+            }
+            else if( stype == 'Dismantlecabinet__c'){
+                return '工程屏柜拆解';
+            }
+            else if( stype == 'Contract__c'){
+                return '合同管理';
+            }
+            else if( stype == 'Account'){
+                return '客户';
+            }else{
+                 return '异常';
+            }
+        
+    }
+
+    webservice static Response GetUserAppHistoryList(String UserMail,DateTime StartTime,DateTime EndTime){
+        Response resp = new Response();
+        
+                
+         List<Approval>  ApprovalList = new List<Approval>();
+         String findv = 'false';
+        String tb123baozhengjin = 'tbbaozhengjin';
+            String sh123ipping = 'shipping';
+            String sc123heduling = 'scheduling';
+            String sa123lesLeads = 'salesLeads';
+            String re123plenishment = 'replenishment';
+            String re123lationshipPlan = 'relationshipPlan';
+            String re123ceipt = 'receipt';
+            String qu123atation = 'quatation';
+            String no123tCommonOutsourcing = 'notCommonOutsourcing';
+            String mo123nthlyPlan = 'monthlyPlan';
+            String ma123jorProjects = 'majorProjects';
+            String in123voice = 'invoice';
+            String gu123aranteeLetter = 'guaranteeLetter';
+            String ex123penseOfBidApply = 'expenseOfBidApply';
+            String co123ntractreview = 'contractreview';
+            String co123ntractchange = 'contractchange';
+            String co123ntractFee = 'contractFee';
+            String co123mmisionSplit = 'commisionSplit';
+            String co123mpetitor = 'competitor';
+            String bi123dReview = 'bidReview';
+            String bi123dCost = 'bidCost';
+            String To123pProjectApp = 'TopProjectApp';
+            String Se123rviceCharge = 'ServiceCharge';
+            String Pl123an = 'Plan';
+            String Di123smantlecabinet = 'Dismantlecabinet';
+            String Co123ntract = 'Contract';
+            String Ac123count = 'Account';
+            String tb123baozhengjin1 = 'tbbaozhengjin1';
+            String sh123ipping1 = 'shipping1';
+            String sc123heduling1 = 'scheduling1';
+            String sa123lesLeads1 = 'salesLeads1';
+            String re123plenishment1 = 'replenishment1';
+            String re123lationshipPlan1 = 'relationshipPlan1';
+            String re123ceipt1 = 'receipt1';
+            String qu123atation1 = 'quatation1';
+            String no123tCommonOutsourcing1 = 'notCommonOutsourcing1';
+            String mo123nthlyPlan1 = 'monthlyPlan1';
+            String ma123jorProjects1 = 'majorProjects1';
+            String in123voice1 = 'invoice1';
+            String gu123aranteeLetter1 = 'guaranteeLetter1';
+            String ex123penseOfBidApply1 = 'expenseOfBidApply1';
+            String co123ntractreview1 = 'contractreview1';
+            String co123ntractchange1 = 'contractchange1';
+            String co123ntractFee1 = 'contractFee1';
+            String co123mmisionSplit1 = 'commisionSplit1';
+            String co123mpetitor1 = 'competitor1';
+            String bi123dReview1 = 'bidReview1';
+            String bi123dCost1 = 'bidCost1';
+            String To123pProjectApp1 = 'TopProjectApp1';
+            String Se123rviceCharge1 = 'ServiceCharge1';
+            String Pl123an1 = 'Plan1';
+            String Di123smantlecabinet1 = 'Dismantlecabinet1';
+            String Co123ntract1 = 'Contract1';
+            String Ac123count1 = 'Account1';
+            String tb123baozhengjin12 = 'tbbaozhengjin12';
+            String sh123ipping12 = 'shipping12';
+            String sc123heduling12 = 'scheduling12';
+            String sa123lesLeads12 = 'salesLeads12';
+            String re123plenishment12 = 'replenishment12';
+            String re123lationshipPlan12 = 'relationshipPlan12';
+            String re123ceipt12 = 'receipt12';
+            String qu123atation12 = 'quatation12';
+            String no123tCommonOutsourcing12 = 'notCommonOutsourcing12';
+            String mo123nthlyPlan12 = 'monthlyPlan12';
+            String ma123jorProjects12 = 'majorProjects12';
+            String in123voice12 = 'invoice12';
+            String gu123aranteeLetter12 = 'guaranteeLetter12';
+            String ex123penseOfBidApply12 = 'expenseOfBidApply12';
+            String co123ntractreview12 = 'contractreview12';
+            String co123ntractchange12 = 'contractchange12';
+            String co123ntractFee12 = 'contractFee12';
+            String co123mmisionSplit12 = 'commisionSplit12';
+            String co123mpetitor12 = 'competitor12';
+            String bi123dReview12 = 'bidReview12';
+            String bi123dCost12 = 'bidCost12';
+            String To123pProjectApp12 = 'TopProjectApp12';
+            String Se123rviceCharge12 = 'ServiceCharge12';
+            String Pl123an12 = 'Plan12';
+            String Di123smantlecabinet12 = 'Dismantlecabinet12';
+            String Co123ntract12 = 'Contract12';
+            String Ac123count12 = 'Account12';
+        	String tbbaozhengjin = 'tbbaozhengjin';
+            String shipping = 'shipping';
+            String scheduling = 'scheduling';
+            String salesLeads = 'salesLeads';
+            String replenishment = 'replenishment';
+            String relationshipPlan = 'relationshipPlan';
+            String receipt = 'receipt';
+            String quatation = 'quatation';
+            String notCommonOutsourcing = 'notCommonOutsourcing';
+            String monthlyPlan = 'monthlyPlan';
+            String majorProjects = 'majorProjects';
+            String invoice = 'invoice';
+            String guaranteeLetter = 'guaranteeLetter';
+            String expenseOfBidApply = 'expenseOfBidApply';
+            String contractreview = 'contractreview';
+            String contractchange = 'contractchange';
+            String contractFee = 'contractFee';
+            String commisionSplit = 'commisionSplit';
+            String competitor = 'competitor';
+            String bidReview = 'bidReview';
+            String bidCost = 'bidCost';
+            String TopProjectApp = 'TopProjectApp';
+            String ServiceCharge = 'ServiceCharge';
+            String Plan = 'Plan';
+            String Dismantlecabinet = 'Dismantlecabinet';
+            String Contract = 'Contract';
+            String Account = 'Account';
+            String tbbaozhengjin1 = 'tbbaozhengjin1';
+            String shipping1 = 'shipping1';
+            String scheduling1 = 'scheduling1';
+            String salesLeads1 = 'salesLeads1';
+            String replenishment1 = 'replenishment1';
+            String relationshipPlan1 = 'relationshipPlan1';
+            String receipt1 = 'receipt1';
+            String quatation1 = 'quatation1';
+            String notCommonOutsourcing1 = 'notCommonOutsourcing1';
+            String monthlyPlan1 = 'monthlyPlan1';
+            String majorProjects1 = 'majorProjects1';
+            String invoice1 = 'invoice1';
+            String guaranteeLetter1 = 'guaranteeLetter1';
+            String expenseOfBidApply1 = 'expenseOfBidApply1';
+            String contractreview1 = 'contractreview1';
+            String contractchange1 = 'contractchange1';
+            String contractFee1 = 'contractFee1';
+            String commisionSplit1 = 'commisionSplit1';
+            String competitor1 = 'competitor1';
+            String bidReview1 = 'bidReview1';
+            String bidCost1 = 'bidCost1';
+            String TopProjectApp1 = 'TopProjectApp1';
+            String ServiceCharge1 = 'ServiceCharge1';
+            String Plan1 = 'Plan1';
+            String Dismantlecabinet1 = 'Dismantlecabinet1';
+            String Contract1 = 'Contract1';
+            String Account1 = 'Account1';
+            String tbbaozhengjin12 = 'tbbaozhengjin12';
+            String shipping12 = 'shipping12';
+            String scheduling12 = 'scheduling12';
+            String salesLeads12 = 'salesLeads12';
+            String replenishment12 = 'replenishment12';
+            String relationshipPlan12 = 'relationshipPlan12';
+            String receipt12 = 'receipt12';
+            String quatation12 = 'quatation12';
+            String notCommonOutsourcing12 = 'notCommonOutsourcing12';
+            String monthlyPlan12 = 'monthlyPlan12';
+            String majorProjects12 = 'majorProjects12';
+            String invoice12 = 'invoice12';
+            String guaranteeLetter12 = 'guaranteeLetter12';
+            String expenseOfBidApply12 = 'expenseOfBidApply12';
+            String contractreview12 = 'contractreview12';
+            String contractchange12 = 'contractchange12';
+            String contractFee12 = 'contractFee12';
+            String commisionSplit12 = 'commisionSplit12';
+            String competitor12 = 'competitor12';
+            String bidReview12 = 'bidReview12';
+            String bidCost12 = 'bidCost12';
+            String TopProjectApp12 = 'TopProjectApp12';
+            String ServiceCharge12 = 'ServiceCharge12';
+            String Plan12 = 'Plan12';
+            String Dismantlecabinet12 = 'Dismantlecabinet12';
+            String Contract12 = 'Contract12';
+            String Account12 = 'Account12';
+         try{
+            if(UserMail!=null&& UserMail !=''){
+                String UserId = '';   
+                List<user> UserList = [select id,name,Username,staffID__c from user where Username =:UserMail];
+                if(UserList.size() >0){
+                    findv = 'true';
+                    UserId = UserList.get(0).id;
+                    
+                    List<ProcessInstanceStep> ProcessInstanceStepList = [SELECT ActorId, Comments, CreatedById, CreatedDate, OriginalActorId, ProcessInstanceId, Id, StepStatus, SystemModstamp FROM ProcessInstanceStep where OriginalActorId =:UserId and SystemModstamp >:StartTime and SystemModstamp<=:EndTime];
+
+                    List<ProcessInstance> ProcessInstanceList =[SELECT Id, TargetObjectId, Status, SubmittedById,CreatedDate FROM ProcessInstance where id in (SELECT ProcessInstanceId FROM ProcessInstanceStep where OriginalActorId =:UserId and SystemModstamp >:StartTime and SystemModstamp<=:EndTime)];
+                                      
+                    List<User> AllUserList = [select id,Username,staffID__c,name from user where IsActive = true ];
+
+                    resp.ApprovalLength = ProcessInstanceList.size()+'';
+                    for(ProcessInstance pro:ProcessInstanceList){
+                        Approval app = new Approval();
+                        ID sId = ID.valueOf(pro.TargetObjectId);
+                        String sobjectType = sId.getSObjectType().getDescribe().getName();
+                        //SObject record = Database.query('Select Id,Name From ' + sobjectType + ' Where Id = :sId');
+                        app.ObjectName =  Database.query('Select Id,Name From ' + sobjectType + ' Where Id = :sId').get(0).get('name').toString();
+                        app.ObjectType = getType(sobjectType);
+                        app.SubmitUser = [select name from User where id=:pro.SubmittedById].name;
+                        app.SubmitUserid = pro.SubmittedById;
+                        app.ApprovalUser = UserList.get(0).name;
+                        app.ApprovalStatus = getValue(pro.Status);
+                        app.ApprovalUserEamil= UserList.get(0).Username;
+        				app.ApprovalstaffID = UserList.get(0).staffID__c;
+                        app.Submittime =String.valueOf(pro.CreatedDate).replace('T',' ').replace('.000Z','') ;
+                        app.ApprovalUrl = URL.getSalesforceBaseUrl().toExternalForm()+'/'+pro.TargetObjectId;
+                        ApprovalList.add(app);
+                    }
+                    
+                    if(ApprovalList.size() > 0){
+                        for(Approval appval:ApprovalList){
+                            for(User userl:AllUserList){
+                                if(appval.SubmitUserid == userl.id){
+                                    appval.SubmitUser = userl.name;
+                                    appval.SubmitUserEamil = userl.Username;
+                                    appval.SubmitStaffID = userl.staffID__c;
+                                    break;
+                                } 
+                            }
+                        }
+                    }	
+                }            
+        
+            }
+            
+            if( findv == 'true'){
+                resp.message = SYSTEM.JSON.serialize(ApprovalList);
+                System.debug(SYSTEM.JSON.serialize(ApprovalList));
+                logClass.returnLog('成功', '已处理', '获取用户审批历史成功', '正常');
+                resp.flag='Y';
+            }else{
+                resp.flag='N';
+                resp.message='查新信息失败，未查询到相关数据！';
+              
+            }
+        }catch(Exception e){
+            resp.flag='E';
+            resp.message=e.getMessage();
+        }
+        return resp;
+    }
+}

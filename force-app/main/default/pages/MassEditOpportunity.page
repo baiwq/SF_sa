@@ -1,0 +1,47 @@
+<apex:page standardController="Opportunity" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="c" id="table">
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.Name.label}">
+          <apex:outputField value="{!c.Name}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.opportunityScore__c.label}">
+          <apex:inputField required="false" value="{!c.opportunityScore__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.classification__c.label}">
+          <apex:outputField value="{!c.classification__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.rating__c.label}">
+          <apex:outputField value="{!c.rating__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.expectAmount__c.label}">
+          <apex:inputField value="{!c.expectAmount__c}"/>
+        </apex:column>   
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.topLevel1__c.label}">
+          <apex:inputField required="false" value="{!c.topLevel1__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.topLevel2__c.label}">
+          <apex:inputField required="false" value="{!c.topLevel2__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.topLevel3__c.label}">
+          <apex:inputField required="false" value="{!c.topLevel3__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.Opportunity.fields.topLevel4__c.label}">
+          <apex:inputField required="false" value="{!c.topLevel4__c}"/>
+        </apex:column>
+        
+        
+        
+        
+        
+      
+        
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,31 @@
+<!--
+    修改：任艳新 2018-10-23
+    修改功能:查看更多的链接
+-->
+<apex:page standardController="notification__c" extensions="NotificationHomeController">
+  <apex:form >
+  <apex:pageBlock title="{!$Label.Vis_Home_XTGG}">
+      <apex:pageBlockTable value="{!nList}" var="n" id="table">
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.subject__c.label}">
+          <a href = "/{!n.id}" target="_blank" >{!n.subject__c}</a>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.type__c.label}">
+            <apex:outputText value="{!n.type__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.category__c.label}">
+            <apex:outputText value="{!n.category__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.area__c.label}">
+            <apex:outputText value="{!n.area__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.createDate__c.label}">
+            <apex:outputText value="{!n.createDate__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.notification__c.fields.owner__c.label}">
+            <apex:outputText value="{!n.owner__c}"/>
+        </apex:column>   
+      </apex:pageBlockTable>
+      <div style="margin:8px"><a href="/a03/o" target="_blank">{!$Label.Vis_Home_more}</a></div>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

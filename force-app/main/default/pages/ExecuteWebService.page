@@ -1,0 +1,272 @@
+<apex:page controller="FilesRemoter">
+    <script type="text/javascript">
+        function getRemoteAccount(){
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.upload}',
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        } 
+        function deleteLog(){
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.deleteLog}',
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        } 
+        function sendInvoiceSap(){
+            var sId = document.getElementById('invoiceId2').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.sendToSap}',
+                sId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+    //回款
+        function sendReturn(){
+            var rId = document.getElementById('returnId').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.sendReturn}',
+                rId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function sendacctoSap(){        
+            
+            var accountId= document.getElementById('accountId').value;
+            if(accountId==null||accountId==''||accountId==' '){
+                alert('客户编号不能为空');
+                return ;
+            }
+            var accountType= document.getElementById('accountType').value;
+            if(accountType==null||accountType==''||accountType==' '){
+                alert('客户类型不能为空');
+                return ;
+            }
+            var companyCode= document.getElementById('companyCode').value;
+            
+            var SalesCode= document.getElementById('SalesCode').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.sendacctoSap}',
+               '手动执行推送',
+                accountId,
+                accountType,
+                companyCode,
+                SalesCode,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function insertInvoice(){        
+            var sId = document.getElementById('invoiceId').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.insertInvoice}',
+                sId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function GetContractStPlanDate(){    
+            var start2= document.getElementById('start2').value;
+            if(start2==null||start2==''||start2==' '){
+                alert('开始日期不能为空');
+                return ;
+            }
+            var end2= document.getElementById('end2').value;
+            if(end2==null||end2==''||end2==' '){
+                alert('结束日期不能为空');
+                return ;
+            }    
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.GetContractStPlanDate}',
+                start2,
+                end2,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function getInvoiceInfo(){
+            var start1= document.getElementById('start1').value;
+            if(start1==null||start1==''||start1==' '){
+                alert('开始日期不能为空');
+                return ;
+            }
+            var end1= document.getElementById('end1').value;
+            if(end1==null||end1==''||end1==' '){
+                alert('结束日期不能为空');
+                return ;
+            }
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.getInvoiceInfo}',
+                start1,
+                end1,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function pushInvoiceToSF(){        
+            var sId = document.getElementById('invoiceName').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.pushInvoiceToSF}',
+                sId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        function pushReceiveToSF(){        
+            var sId = document.getElementById('receiveName').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.pushReceiveToSF}',
+                sId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+        
+        function pushContractChangeToBPM(){        
+            var sId = document.getElementById('contractchangeName').value;
+            Visualforce.remoting.Manager.invokeAction( 
+                '{!$RemoteAction.FilesRemoter.pushContractChangeToBPM}',
+                sId,
+                function(result, event){ 
+                    alert(result) 
+                }, 
+                {escape: true} 
+            ); 
+        }
+    </script>
+        <table border="0" width="900px" style="margin:auto;margin-top:100px" >
+            <tr>
+                <td width='80%' colspan='8'>&nbsp;</td>
+                <td width='20%'><button onclick="getRemoteAccount()" style="width:200px;">各种测试</button></td>
+            </tr>
+            <tr>
+                <td width='80%' colspan='8'>&nbsp;</td>
+                <td width='20%'><button onclick="deleteLog()" style="width:200px;">删除所有日志</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>开始日期：</td>
+                <td width='30%' colspan='3'><input type="text" id="start2" style="width:94%"/></td>
+                <td width='10%'>结束日期：</td>
+                <td width='30%' colspan='3'><input type="text" id="end2" style="width:94%"/> </td>
+                <td width='20%'><button onclick="GetContractStPlanDate()" style="width:200px;">获取工程服务</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>开票ID：</td>
+                <td width='60%' colspan="7"><input type="text" id="invoiceId" style="width:98%"/> </td>
+                <td width='20%'><button onclick="insertInvoice()" style="width:200px;">推送开票信息到中间库</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>开始日期：</td>
+                <td width='30%' colspan='3'><input type="text" id="start1" style="width:94%"/></td>
+                <td width='10%'>结束日期：</td>
+                <td width='30%' colspan='3'><input type="text" id="end1" style="width:94%"/> </td>
+                <td width='20%'><button onclick="getInvoiceInfo()" style="width:200px;">获取开票机返回信息</button> </td>
+            </tr>
+            <tr>
+                
+                <td width='10%'>客户ID:</td>
+                <td width='10%'><input type="text" id="accountId" style="width:90%"/> </td>
+                <td width='10%'>客户类型:</td>
+                <td width='10%'><input type="text" id="accountType" style="width:81%"/> </td>
+                <td width='10%'>公司编码:</td>
+                <td width='10%'><input type="text" id="companyCode" style="width:90%"/> </td>
+                <td width='10%'>销售组织:</td>
+                <td width='10%'><input type="text" id="SalesCode" style="width:81%"/> </td>
+                <td width='20%'><button onclick="sendacctoSap()" style="width:200px;">推送客户信息到Sap</button>  </td>
+            </tr>
+            <tr>
+                <td width='10%'>开票ID：</td>
+                <td width='60%' colspan="7"><input type="text" id="invoiceId2" style="width:98%"/> </td>
+                <td width='20%'><button onclick="sendInvoiceSap()" style="width:200px;">推送开票信息到Sap</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>回款ID：</td>
+                <td width='70%' colspan="7"><input type="text" id="returnId" style="width:98%"/> </td>
+                <td width='20%'><button onclick="sendReturn()" style="width:200px;">推送回款</button>  </td>
+            </tr>
+            <tr>
+                <td width='10%'>开票号：</td>
+                <td width='60%' colspan="7"><input type="text" id="invoiceName" style="width:98%"/> </td>
+                <td width='20%'><button onclick="pushInvoiceToSF()" style="width:200px;">推送开票到顺丰</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>收据号：</td>
+                <td width='60%' colspan="7"><input type="text" id="receiveName" style="width:98%"/> </td>
+                <td width='20%'><button onclick="pushReceiveToSF()" style="width:200px;">推送收据到顺丰</button> </td>
+            </tr>
+            <tr>
+                <td width='10%'>合同变更编号：</td>
+                <td width='60%' colspan="7"><input type="text" id="contractchangeName" style="width:98%"/> </td>
+                <td width='20%'><button onclick="pushContractChangeToBPM()" style="width:200px;">推送合同变更到BPM</button> </td>
+            </tr>
+        </table> 
+        <!--
+        <div style="margin-top:100px;margin-left:300px;width:200px;">
+            <button onclick="getRemoteAccount()" style="width:200px;">各种测试</button> 
+        </div>
+        
+        <br/>
+        <div style="margin-left:300px;width:200px;">
+            <button onclick="deleteLog()" style="width:200px;">删除所有日志</button> 
+        </div>
+        <br/>
+        <div style="margin-left:300px;width:200px;">
+            <button onclick="GetContractStPlanDate()" style="width:200px;">获取工程服务</button> 
+        </div>
+        <br/>
+        <div style="margin-left:300px;width:200px;">
+            <button onclick="sendInvoiceSap()" style="width:200px;">推送开票信息到Sap</button> 
+        </div>
+        <br/>
+        <div style="margin-left:300px;width:200px;">
+            <button onclick="sendacctoSap()" style="width:200px;">推送客户信息到Sap</button> 
+        </div>
+        <br/>
+        <div style="margin-left:300px;">
+           开票ID：<input type="text" id="invoiceId" /> <button onclick="insertInvoice()" style="width:200px;">推送开票信息到中间库</button> 
+        </div>
+        <br/>
+        <div style="margin-left:300px;">
+           开始日期：<input type="text" id="start1" /> &nbsp;&nbsp;&nbsp;结束日期：<input type="text" id="end1" /><button onclick="getInvoiceInfo()" style="width:200px;">获取开票机返回信息</button> 
+        </div>
+        <div style="margin-left:300px;width:200px;">
+            回款ID：<input type="text" id="returnId" /><button onclick="sendReturn()" style="width:200px;">推送回款</button> 
+        </div>
+        -->
+        <div style="margin-bottom:60px;"></div>
+        <div id="responseErrors"></div> 
+        
+        <apex:pageBlock id="block"> 
+            <apex:pageBlockSection id="blockSection" columns="2"> 
+                <apex:pageBlockSectionItem id="firstItem"> 
+                    <span id="remoteAcctId"/> 
+                </apex:pageBlockSectionItem> 
+                <apex:pageBlockSectionItem id="secondItem"> 
+                    <apex:outputText id="acctNumEmployees"/> 
+                </apex:pageBlockSectionItem> 
+            </apex:pageBlockSection> 
+        </apex:pageBlock> 
+    </apex:page>

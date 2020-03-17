@@ -1,0 +1,33 @@
+<apex:page standardController="sellPointMatching__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="spm" id="table">
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.Name.label}">
+          <apex:outputField value="{!spm.Name}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.sellingPoint__c.label}">
+          <apex:inputField required="true" value="{!spm.sellingPoint__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.buyingPoint__c.label}">
+          <apex:inputField required="false" value="{!spm.buyingPoint__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.valuePoint__c.label}">
+          <apex:inputField required="false" value="{!spm.valuePoint__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.matchPercentage__c.label}">
+          <apex:inputField value="{!spm.matchPercentage__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.importance__c.label}">
+          <apex:inputField value="{!spm.importance__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.sellPointMatching__c.fields.guideDirection__c.label}">
+          <apex:inputField value="{!spm.guideDirection__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,40 @@
+<apex:page standardController="negotationStrategy__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="ns" id="table">
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.Name.label}">
+          <apex:outputField value="{!ns.Name}"/>
+        </apex:column>
+        <!-- negotiationItem__c requirement__c bottomLine__c strategy__c date__c location__c negotiateBy__c result__c-->
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.negotiationItem__c.label}">
+          <apex:inputField required="true" value="{!ns.negotiationItem__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.requirement__c.label}">
+          <apex:inputField value="{!ns.requirement__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.bottomLine__c.label}">
+          <apex:inputField value="{!ns.bottomLine__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.strategy__c.label}">
+          <apex:inputField value="{!ns.strategy__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.date__c.label}">
+          <apex:inputField value="{!ns.date__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.location__c.label}">
+          <apex:inputField value="{!ns.location__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.negotiateBy__c.label}">
+          <apex:inputField value="{!ns.negotiateBy__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.negotationStrategy__c.fields.result__c.label}">
+          <apex:inputField value="{!ns.result__c}"/>
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

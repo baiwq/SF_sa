@@ -1,0 +1,5 @@
+<apex:page standardController="contractFee__c" >
+ 
+      <h3 style ='font-family:微软雅黑;color: #ff0000;font-size:11px;margin-bottom:4px'>★  费用发生后，须在一个月内报销完毕，过期不再报销</h3><br/>
+
+</apex:page>

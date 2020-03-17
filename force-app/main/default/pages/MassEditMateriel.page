@@ -1,0 +1,46 @@
+<apex:page standardController="materiel__c" recordSetVar="unused" sidebar="false">
+  <apex:form >
+    <apex:pageBlock >
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="保存" action="{!save}"/>
+        <apex:commandButton value="返回" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockTable value="{!selected}" var="v" id="table">
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.notCommonOutsourcing__c.label}">
+          <apex:outputField value="{!v.notCommonOutsourcing__c}"/>
+        </apex:column>
+        
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.Name.label}">
+          <apex:inputField required="true" value="{!v.Name}"/>
+        </apex:column>  
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.model__c.label}">
+          <apex:inputField required="true" value="{!v.model__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.number__c.label}">
+          <apex:inputField required="true" value="{!v.number__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.unit__c.label}">
+          <apex:inputField required="true" value="{!v.unit__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.inquiryUnitPrice__c.label}">
+          <apex:inputField required="true" value="{!v.inquiryUnitPrice__c}"/>
+        </apex:column>  
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.inquiryDate__c.label}">
+          <apex:inputField required="true" value="{!v.inquiryDate__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.paymentDate__c.label}">
+          <apex:inputField required="true" value="{!v.paymentDate__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.supplyCycle__c.label}">
+          <apex:inputField required="true" value="{!v.supplyCycle__c}"/>
+        </apex:column>
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.manufactorNameAndPhone__c.label}">
+          <apex:inputField required="true" value="{!v.manufactorNameAndPhone__c}"/>
+        </apex:column> 
+        <apex:column headerValue="{!$ObjectType.materiel__c.fields.bidUnitPrice__c.label}">
+          <apex:inputField required="true" value="{!v.bidUnitPrice__c}"/>
+        </apex:column>  
+      </apex:pageBlockTable>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>
